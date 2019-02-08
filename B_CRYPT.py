@@ -1,7 +1,3 @@
-def rotate_rotor(alphabet, rotations):
-    return alphabet[rotations:] + alphabet[:rotations]
-
-
 def input_message():
     encrypted_msg = []
     decrypted_msg = []
@@ -33,14 +29,14 @@ def input_message():
     print()
     print('-' * 50)
     print()
-    print("ENCRYPTED MESSAGE CHARACTERS:", encrypted_msg)
+    print("ENCRYPTED MESSAGE:", encrypted_msg)
     print()
     for enum, encrypted_chars in enumerate(encrypted_msg):
-        print("ENCRYPTED MESSAGE CHARACTER #'s: - LETTER SPOT:", enum, "- ", ord(encrypted_chars))
+        print("ENCRYPTED MESSAGE CHARACTER #'s:", enum, "- ", ord(encrypted_chars))
     print()
     print('-' * 50)
     print()
-    print("DECRYPTED MESSAGE:", decrypted_msg)
+    print("DECRYPTED MESSAGE:", repr(decrypted_msg))
 
 
 input_message()
