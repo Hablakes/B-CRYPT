@@ -1,3 +1,6 @@
+import math
+
+
 def interface():
     print()
     print("-" * 80)
@@ -37,7 +40,7 @@ def input_message_and_encrypt():
     for enum, chars in enumerate(in_msg):
         msg_chars = ord(chars)
         key_chars = ord(key[enum % len(key)])
-        randomize_alg = msg_chars * key_chars
+        randomize_alg = (msg_chars * 2) * key_chars
         print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum, ",", "CHARACTER ORDER #: ", msg_chars)
         encrypted_msg.append(chr(randomize_alg))
 
@@ -65,7 +68,7 @@ def decrypt_message():
     for enum, encrypted_letters in enumerate(in_msg):
         msg_chars = ord(encrypted_letters)
         key_chars = ord(key[enum % len(key)])
-        randomize_alg = int(msg_chars / key_chars)
+        randomize_alg = int((msg_chars / 2) / key_chars)
         decrypted_msg.append(chr(randomize_alg))
 
     for enum, encrypted_chars in enumerate(in_msg):
