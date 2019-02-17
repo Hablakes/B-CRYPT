@@ -1,6 +1,3 @@
-import math
-
-
 def interface():
     print()
     print("-" * 80)
