@@ -1,3 +1,6 @@
+import os
+
+
 def interface():
     print()
     print("-" * 80)
@@ -26,7 +29,7 @@ def interface():
 def get_bytes_from_files(filename):
     with open(filename, "rb") as f:
         while True:
-            bytes_amount = f.read(8)
+            bytes_amount = f.read(1024)
             if bytes_amount:
                 for bts in bytes_amount:
                     yield bts
@@ -35,12 +38,11 @@ def get_bytes_from_files(filename):
 
 
 def encrypt_file():
-    encrypted_msg = []
-    b64_encrypted_msg = []
-    print("-" * 80)
+    encrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO ENCRYPT:")
     print()
     file_to_encrypt = input()
+    file_to_encrypt_filename = file_to_encrypt.rsplit('/', 1)[-1]
     print()
     print("-"*80)
     print()
@@ -48,42 +50,39 @@ def encrypt_file():
     print()
     in_key = input()
     key = in_key
-    print()
-    print('-' * 80)
-    print()
 
     for enum, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
         msg_chars = ord(chr(chars))
         key_chars = ord(key[enum % len(key)])
         randomize_alg = (msg_chars * 2) * key_chars
-        encrypted_msg.append(chr(randomize_alg))
+        encrypted_file.append(chr(randomize_alg))
 
-    print(''.join(encrypted_msg))
+    with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='UTF8') as f:
+        f.write(''.join(encrypted_file))
 
 
 def decrypt_file():
-    decrypted_msg_s1 = []
-    b64_decrypted_msg = []
-
-    print("ENTER MESSAGE TO DECRYPT:")
+    decrypted_file = []
+    print("INPUT COMPLETE PATH OF FILE TO DECRYPT:")
     print()
-    in_msg = input()
+    file_to_decrypt = input()
+    file_to_decrypt_original_filename = file_to_decrypt.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print()
     print("ENTER KEY:")
     print()
     in_key = input()
     key = in_key
-    print()
-    print('-'*80)
-    print()
 
-    for enum, encrypted_letters in enumerate(in_msg):
-        msg_chars = ord(encrypted_letters)
-        key_chars = ord(key[enum % len(key)])
-        randomize_alg = int((msg_chars / 2) / key_chars)
-        decrypted_msg_s1.append(chr(randomize_alg))
+    with open(file_to_decrypt) as f:
+        for chars in f:
+            for enum, encrypted_letters in enumerate(chars):
+                msg_chars = ord(encrypted_letters)
+                key_chars = ord(key[enum % len(key)])
+                randomize_alg = int((msg_chars / 2) / key_chars)
+                decrypted_file.append(randomize_alg)
 
-    print("RESULTS:", ''.join(decrypted_msg_s1))
+    with open(os.path.expanduser(r'~/{0}').format(file_to_decrypt_original_filename), 'wb') as f:
+        f.write(bytearray(decrypted_file))
 
 
 while True:
