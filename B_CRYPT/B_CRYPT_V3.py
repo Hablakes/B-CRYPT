@@ -145,7 +145,7 @@ def encrypt_file():
     encrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO ENCRYPT:")
     print()
-    file_to_encrypt = input()
+    file_to_encrypt = input().replace('\\', '/')
     file_to_encrypt_filename = file_to_encrypt.rsplit('/', 1)[-1]
     print()
     print("-"*80)
@@ -169,7 +169,7 @@ def decrypt_file():
     decrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO DECRYPT:")
     print()
-    file_to_decrypt = input()
+    file_to_decrypt = input().replace('\\', '/')
     file_to_decrypt_original_filename = file_to_decrypt.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print()
     print("ENTER KEY:")
