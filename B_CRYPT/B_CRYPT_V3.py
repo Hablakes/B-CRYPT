@@ -177,7 +177,7 @@ def decrypt_file():
     in_key = input()
     key = in_key
 
-    with open(file_to_decrypt) as f:
+    with open(file_to_decrypt, encoding='UTF8') as f:
         for chars in f:
             for enum, encrypted_letters in enumerate(chars):
                 msg_chars = ord(encrypted_letters)
