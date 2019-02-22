@@ -2,6 +2,7 @@ import base64
 import os
 import textwrap
 
+from tkinter import *
 from tkinter.filedialog import askopenfilename
 
 
@@ -147,7 +148,11 @@ def encrypt_file():
     encrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO ENCRYPT:")
     print()
+    root = Tk()
+    root.withdraw()
+    root.update()
     file_to_encrypt = askopenfilename()
+    root.destroy()
     # file_to_encrypt = input().replace('\\', '/')
     file_to_encrypt_filename = file_to_encrypt.rsplit('/', 1)[-1]
     print()
@@ -172,7 +177,11 @@ def decrypt_file():
     decrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO DECRYPT:")
     print()
+    root = Tk()
+    root.withdraw()
+    root.update()
     file_to_decrypt = askopenfilename()
+    root.destroy()
     # file_to_decrypt = input().replace('\\', '/')
     file_to_decrypt_original_filename = file_to_decrypt.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print()
