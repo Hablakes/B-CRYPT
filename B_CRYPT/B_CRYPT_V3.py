@@ -133,17 +133,6 @@ def decrypt_message():
     print(textwrap.fill(''.join(b64_decrypted_msg), 80))
 
 
-def get_bytes_from_files(filename):
-    with open(filename, "rb") as f:
-        while True:
-            bytes_amount = f.read(1024)
-            if bytes_amount:
-                for bts in bytes_amount:
-                    yield bts
-            else:
-                break
-
-
 def encrypt_file():
     encrypted_file = []
     print("INPUT COMPLETE PATH OF FILE TO ENCRYPT:")
@@ -155,13 +144,13 @@ def encrypt_file():
     root.destroy()
     # file_to_encrypt = input().replace('\\', '/')
     file_to_encrypt_filename = file_to_encrypt.rsplit('/', 1)[-1]
-    print()
     print("-"*80)
     print()
     print("ENTER KEY:")
-    print()
     in_key = input()
     key = in_key
+    print()
+    print("-" * 80)
 
     for enum, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
         msg_chars = ord(chr(chars))
@@ -172,6 +161,8 @@ def encrypt_file():
     with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='UTF8') as f:
         f.write(''.join(encrypted_file))
 
+    print()
+    print("FILE ENCRYPTED SUCCESSFULLY")
 
 def decrypt_file():
     decrypted_file = []
@@ -184,11 +175,13 @@ def decrypt_file():
     root.destroy()
     # file_to_decrypt = input().replace('\\', '/')
     file_to_decrypt_original_filename = file_to_decrypt.rsplit('.', 1)[0].rsplit('/', 1)[-1]
+    print("-" * 80)
     print()
     print("ENTER KEY:")
-    print()
     in_key = input()
     key = in_key
+    print()
+    print("-" * 80)
 
     with open(file_to_decrypt, encoding='UTF8') as f:
         for chars in f:
@@ -200,6 +193,28 @@ def decrypt_file():
 
     with open(os.path.expanduser(r'~/{0}').format(file_to_decrypt_original_filename), 'wb') as f:
         f.write(bytearray(decrypted_file))
+
+    print()
+    print("FILE DECRYPTED SUCCESSFULLY")
+
+
+def get_bytes_from_files(filename):
+    print()
+    print("ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH:")
+    print()
+    print("DEFAULT BLOCK SIZE IS 1024 / 1KB.  IF UNSURE, ENTER: '1024'")
+    print()
+    print("-" * 80)
+    input_bytes_amount = input()
+    input_bytes_amount_int = int(input_bytes_amount)
+    with open(filename, "rb") as f:
+        while True:
+            bytes_amount = f.read(input_bytes_amount_int)
+            if bytes_amount:
+                for bts in bytes_amount:
+                    yield bts
+            else:
+                break
 
 
 while True:
