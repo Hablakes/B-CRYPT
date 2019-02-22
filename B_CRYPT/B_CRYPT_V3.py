@@ -53,11 +53,11 @@ def encrypt_message():
     print('-' * 80)
     print()
 
-    for enum, chars in enumerate(in_msg):
+    for enum_chars, chars in enumerate(in_msg):
         msg_chars = ord(chars)
-        key_chars = ord(key[enum % len(key)])
+        key_chars = ord(key[enum_chars % len(key)])
         randomize_alg = (msg_chars * 2) * key_chars
-        print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum, ",", "CHARACTER ORDER #: ", msg_chars)
+        print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum_chars, ",", "CHARACTER ORDER #: ", msg_chars)
         encrypted_msg.append(chr(randomize_alg))
 
     encrypted_msg_bytes = ''.join(encrypted_msg).encode("utf-8")
@@ -66,11 +66,11 @@ def encrypt_message():
     print()
     encoded_b64_encrypted_msg = base64.b64encode(encrypted_msg_bytes)
 
-    for enum, chars in enumerate(encoded_b64_encrypted_msg.decode('utf-8')):
+    for enum_chars, chars in enumerate(encoded_b64_encrypted_msg.decode('utf-8')):
         msg_chars = ord(chars)
-        key_chars = ord(key[enum % len(key)])
+        key_chars = ord(key[enum_chars % len(key)])
         randomize_alg = (msg_chars * 2) * key_chars
-        print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum, ",", "CHARACTER ORDER #: ", msg_chars)
+        print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum_chars, ",", "CHARACTER ORDER #: ", msg_chars)
         b64_encrypted_msg.append(chr(randomize_alg))
 
     print()
@@ -109,17 +109,17 @@ def decrypt_message():
     print('-' * 80)
     print()
 
-    for enum, encrypted_letters in enumerate(in_msg):
+    for enum_chars, encrypted_letters in enumerate(in_msg):
         msg_chars = ord(encrypted_letters)
-        key_chars = ord(key[enum % len(key)])
+        key_chars = ord(key[enum_chars % len(key)])
         randomize_alg = int((msg_chars / 2) / key_chars)
         decrypted_msg_s1.append(chr(randomize_alg))
 
     decoded_b64_encrypted_msg = base64.b64decode(''.join(decrypted_msg_s1))
 
-    for enum, encrypted_letters in enumerate(decoded_b64_encrypted_msg.decode('utf-8')):
+    for enum_chars, encrypted_letters in enumerate(decoded_b64_encrypted_msg.decode('utf-8')):
         msg_chars = ord(encrypted_letters)
-        key_chars = ord(key[enum % len(key)])
+        key_chars = ord(key[enum_chars % len(key)])
         randomize_alg = int((msg_chars / 2) / key_chars)
         b64_decrypted_msg.append(chr(randomize_alg))
 
@@ -152,9 +152,9 @@ def encrypt_file():
     print()
     print("-" * 80)
 
-    for enum, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
+    for enum_chars, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
         msg_chars = ord(chr(chars))
-        key_chars = ord(key[enum % len(key)])
+        key_chars = ord(key[enum_chars % len(key)])
         randomize_alg = (msg_chars * 2) * key_chars
         encrypted_file.append(chr(randomize_alg))
 
@@ -163,6 +163,7 @@ def encrypt_file():
 
     print()
     print("FILE ENCRYPTED SUCCESSFULLY")
+
 
 def decrypt_file():
     decrypted_file = []
@@ -185,9 +186,9 @@ def decrypt_file():
 
     with open(file_to_decrypt, encoding='UTF8') as f:
         for chars in f:
-            for enum, encrypted_letters in enumerate(chars):
+            for enum_chars, encrypted_letters in enumerate(chars):
                 msg_chars = ord(encrypted_letters)
-                key_chars = ord(key[enum % len(key)])
+                key_chars = ord(key[enum_chars % len(key)])
                 randomize_alg = int((msg_chars / 2) / key_chars)
                 decrypted_file.append(randomize_alg)
 
