@@ -2,7 +2,7 @@
 Python // Custom Python Encryption Algorithm 
 
 -------------------------------------------------------------------------------------------------
-Simple Tool To Encrypt and Decrypt Messages with Unicode Characters
+Simple Tool To Encrypt and Decrypt Files or Messages with Unicode Characters
 -------------------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------------------
