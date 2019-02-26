@@ -182,6 +182,13 @@ def encrypt_file():
     print()
     print("-" * 80)
 
+    key_spin = int(len(key)) % 6
+
+    if key_spin <= 1:
+        key_spin = (key_spin + 2)
+    else:
+        pass
+
     for enum_chars, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
         msg_chars = ord(chr(chars))
         key_chars = ord(key[enum_chars % len(key)])
@@ -189,7 +196,7 @@ def encrypt_file():
         randomize_alg = (msg_chars * 2) * key_chars
         encrypted_file.append(chr(randomize_alg))
 
-    with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='UTF8') as f:
+    with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='utf-8') as f:
         f.write(''.join(encrypted_file))
 
     print()
@@ -221,7 +228,14 @@ def decrypt_file():
     print()
     print("-" * 80)
 
-    with open(file_to_decrypt, encoding='UTF8') as f:
+    key_spin = int(len(key)) % 6
+
+    if key_spin <= 1:
+        key_spin = (key_spin + 2)
+    else:
+        pass
+
+    with open(file_to_decrypt, encoding='utf-8') as f:
 
         for chars in f:
 
