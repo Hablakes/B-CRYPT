@@ -264,7 +264,7 @@ def get_bytes_from_files(filename):
     input_bytes_amount = input()
     input_bytes_amount_int = int(input_bytes_amount)
 
-    with open(filename, "rb") as f:
+    with open(filename, 'rb') as f:
 
         while True:
             bytes_amount = f.read(input_bytes_amount_int)
