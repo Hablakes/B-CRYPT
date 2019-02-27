@@ -76,7 +76,7 @@ def encrypt_message():
         randomize_alg = (msg_chars * 2) * key_chars
         encrypted_msg.append(chr(randomize_alg))
 
-    encrypted_msg_bytes = ''.join(encrypted_msg).encode("utf-8")
+    encrypted_msg_bytes = ''.join(encrypted_msg).encode('utf-8')
     encoded_b64_encrypted_msg = base64.b64encode(encrypted_msg_bytes)
 
     for enum_chars, chars in enumerate(encoded_b64_encrypted_msg.decode('utf-8')):

@@ -76,7 +76,7 @@ def encrypt_message():
         randomize_alg = (msg_chars * 2) * key_chars
         encrypted_msg.append(chr(randomize_alg))
 
-    encrypted_msg_bytes = ''.join(encrypted_msg).encode("utf-8")
+    encrypted_msg_bytes = ''.join(encrypted_msg).encode('utf-8')
     encoded_b64_encrypted_msg = base64.b64encode(encrypted_msg_bytes)
 
     for enum_chars, chars in enumerate(encoded_b64_encrypted_msg.decode('utf-8')):
@@ -203,6 +203,7 @@ def encrypt_file():
     print()
     print(encrypted_file)
 
+
 """
     with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='utf-8') as f:
         f.write(''.join(encrypted_file))
@@ -273,7 +274,7 @@ def get_bytes_from_files(filename):
     input_bytes_amount = input()
     input_bytes_amount_int = int(input_bytes_amount)
 
-    with open(filename, "rb") as f:
+    with open(filename, 'rb') as f:
 
         while True:
             bytes_amount = f.read(input_bytes_amount_int)
