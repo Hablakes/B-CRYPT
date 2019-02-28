@@ -193,18 +193,18 @@ def encrypt_file():
         msg_chars = ord(chr(chars))
         key_chars = ord(key[enum_chars % len(key)])
 
-        randomize_alg = ((msg_chars * 2) * key_chars) % 1114100
+        randomize_alg = ((msg_chars * key_spin) * key_chars) % 1114100
         encrypted_file.append(chr(randomize_alg))
-
-        print(msg_chars)
-        print(key_chars)
 
     print("KEY SPIN:", key_spin)
     print()
-    print(encrypted_file)
+    print(''.join(encrypted_file))
 
 
 """
+    .encode('utf-8', 'replace')
+    .decode('utf-8', 'surrogateescape'))
+
     with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='utf-8') as f:
         f.write(''.join(encrypted_file))
 
