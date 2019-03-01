@@ -194,14 +194,20 @@ def encrypt_file():
         key_chars = ord(key[enum_chars % len(key)])
 
         randomize_alg = ((msg_chars * key_spin) * key_chars) % 1114100
-        encrypted_file.append(chr(randomize_alg))
+        encrypted_file.append(randomize_alg)
 
-    print("KEY SPIN:", key_spin)
+    with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='utf-8') as f:
+        for encrypted_numbers in encrypted_file:
+            f.write(str(int(encrypted_numbers)))
+            f.write('\n')
+        f.close()
+
     print()
-    print(''.join(encrypted_file))
+    print(pyfiglet.figlet_format("FILE ENCRYPTED SUCCESSFULLY", font="cybermedium"))
 
 
 def decrypt_file():
+    encrypted_numbers_list = []
     decrypted_file = []
 
     print(pyfiglet.figlet_format("INPUT FILE TO DECRYPT:", font="cybermedium"))
@@ -235,9 +241,13 @@ def decrypt_file():
 
     with open(file_to_decrypt, encoding='utf-8') as f:
 
-        for chars in f:
+        for encrypted_numbers in f:
+            print(encrypted_numbers, end='')
 
-            for enum_chars, encrypted_letters in enumerate(chars):
+
+
+"""
+            for enum_chars, encrypted_letters in enumerate(encrypted_numbers):
                 msg_chars = ord(encrypted_letters)
                 key_chars = ord(key[enum_chars % len(key)])
 
@@ -249,6 +259,7 @@ def decrypt_file():
 
     print()
     print(pyfiglet.figlet_format("FILE DECRYPTED SUCCESSFULLY", font="cybermedium"))
+"""
 
 
 def get_bytes_from_files(filename):
