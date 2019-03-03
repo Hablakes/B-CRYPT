@@ -248,7 +248,7 @@ def decrypt_file():
         msg_chars = ord(encrypted_letters)
         key_chars = ord(key[enum_chars % len(key)])
 
-        randomize_alg = int((msg_chars / key_spin) / key_chars)
+        randomize_alg = int((msg_chars / key_spin) / key_chars) % 1114100
         decrypted_file.append(randomize_alg)
 
     with open(os.path.expanduser(r'~/{0}').format(file_to_decrypt_original_filename), 'wb') as f:
