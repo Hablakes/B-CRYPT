@@ -39,6 +39,8 @@ def input_message_and_encrypt():
         key_chars = ord(key[enum % len(key)])
         randomize_alg = (msg_chars * 2) * key_chars
         print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum, ",", "CHARACTER ORDER #: ", msg_chars)
+        print("KEY CHARACTERS:", key_chars)
+        print("RA:", randomize_alg)
         encrypted_msg.append(chr(randomize_alg))
 
     print()
