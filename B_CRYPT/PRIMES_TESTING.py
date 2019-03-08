@@ -1,4 +1,7 @@
-def get_primes(start, stop):
+import sympy
+
+
+def get_primes_python(start, stop):
     dct = {x: True for x in list(range(start, stop + 1))}
     x = start
 
@@ -18,7 +21,8 @@ def get_primes(start, stop):
     return lst
 
 
-res = get_primes(2, 10000000)
+def get_primes_sympy(start, stop):
+    return print(list(sympy.sieve.primerange(start, stop)))
 
-for items in res:
-    print(items)
+
+get_primes_sympy(2, 10000000)
