@@ -10,6 +10,7 @@ os
 pyfiglet
 random
 sympy
+sys
 textwrap
 timeit
 tkinter
