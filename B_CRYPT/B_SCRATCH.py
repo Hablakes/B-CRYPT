@@ -1,4 +1,20 @@
 """
+PIP INSTALLS -
+
+base64
+crypto
+cryptography
+hashlib
+math
+os
+pyfiglet
+random
+sympy
+textwrap
+tkinter
+
+-------------------------------------------------------------------------------------------------------------------
+
     str(chr(0xd800))
 
     encoding='utf-8', errors='replace')
@@ -15,4 +31,3 @@
     print()
     print(pyfiglet.figlet_format("FILE ENCRYPTED SUCCESSFULLY", font="cybermedium"))
 """
-
