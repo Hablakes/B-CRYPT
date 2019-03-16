@@ -1,5 +1,5 @@
 # B-CRYPT
-Python // Custom Python Encryption Algorithm 
+Python // Custom Python Symmetrical Encryption Algorithm
 
 -------------------------------------------------------------------------------------------------
 Simple Tool To Encrypt and Decrypt Files or Messages with Unicode Characters
