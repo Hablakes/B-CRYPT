@@ -7,7 +7,7 @@ test_re = '[0-9]+([0-9]+)*'
 
 
 def testing_math():
-    file_to_encrypt = r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/TEST.txt'
+    file_to_encrypt = r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/TEST.txt'
 
     for chars in get_bytes_from_files(file_to_encrypt):
         print(chars)
@@ -29,8 +29,8 @@ def testing_encrypt():
     encrypted_file = []
     keys_file = []
 
-    private_key_file = r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/B_PUBLIC_KEY.txt'
-    file_to_encrypt = r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/TEST.txt'
+    private_key_file = r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/B_PUBLIC_KEY.txt'
+    file_to_encrypt = r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/TEST.txt'
 
     with open(private_key_file, 'r', encoding='utf-8') as f:
         for keys_found in f:
@@ -43,7 +43,7 @@ def testing_encrypt():
         rsa_public_key_cipher = (chars ** public_key) % n
         encrypted_file.append(rsa_public_key_cipher)
 
-    with open(r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/TEST.txt' + '.bc', 'w', encoding='utf-8') as f:
+    with open(r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/TEST.txt' + '.bc', 'w', encoding='utf-8') as f:
         for encrypted_numbers in encrypted_file:
             f.write(str(int(encrypted_numbers)))
             f.write('\n')
@@ -55,8 +55,8 @@ def testing_decrypt():
     decrypted_file_list = []
     keys_file = []
 
-    public_key_file = r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/B_PRIVATE_KEY.txt'
-    file_to_decrypt = r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/TEST.txt.bc'
+    public_key_file = r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/B_PRIVATE_KEY.txt'
+    file_to_decrypt = r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/TEST.txt.bc'
 
     with open(public_key_file, 'r', encoding='utf-8') as f:
         for keys_found in f:
@@ -74,7 +74,7 @@ def testing_decrypt():
         rsa_private_key_cipher = (encrypted_letters ** public_key) % n
         decrypted_file_list.append(rsa_private_key_cipher)
 
-    with open(r'/home/bx/PycharmProjects/B_TESTING/B_CRYPT_A_S/TEST.txt.ubc', 'wb') as f:
+    with open(r'/home/bx/PycharmProjects/B_TESTING/BX_CRYPT/TEST.txt.ubc', 'wb') as f:
         f.write(bytearray(decrypted_file_list))
 
 
