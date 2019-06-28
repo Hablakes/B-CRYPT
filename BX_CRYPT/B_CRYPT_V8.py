@@ -473,11 +473,11 @@ def generate_rsa_key(key_size):
 
 def get_bytes_from_files(filename):
     print()
-    print("ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH:")
+    print('ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH: ')
     print()
-    print("DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: '1024'")
+    print('DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: "1024"')
     print()
-    print("-" * 100)
+    print('-' * 100)
 
     input_bytes_amount = input()
     input_bytes_amount_int = int(input_bytes_amount)
@@ -529,7 +529,7 @@ def rotate_rotor(alphabet, rotations):
 
 
 def sep():
-    for item in "\n", '-' * 100, "\n":
+    for item in '\n', '-' * 100, '\n':
         print(item)
 
 
