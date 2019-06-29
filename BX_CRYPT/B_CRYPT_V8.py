@@ -58,12 +58,10 @@ def encrypt_message():
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT:', font='cybermedium'))
     sep()
     in_msg = input()
-    print('-' * 100)
-    print()
+    sep()
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
-
     key_spin = int(len(key)) % 6
 
     if key_spin <= 1:
@@ -106,12 +104,10 @@ def decrypt_message():
     print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT:', font='cybermedium'))
     sep()
     in_msg = input()
-    print('-' * 100)
-    print()
+    sep()
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
-
     key_spin = int(len(key)) % 6
 
     if key_spin <= 1:
@@ -166,7 +162,6 @@ def encrypt_file():
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
-
     key_spin = int(len(key)) % 6
 
     if key_spin <= 1:
@@ -206,7 +201,6 @@ def decrypt_file():
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
-
     key_spin = int(len(key)) % 6
 
     if key_spin <= 1:
