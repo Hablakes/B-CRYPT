@@ -64,6 +64,7 @@ def encrypt_message():
     key = in_key
     sep()
     key_spin = int(len(key)) % 6
+    current_time = int(time.time())
 
     if key_spin <= 1:
         key_spin = (key_spin + 2)
@@ -110,14 +111,14 @@ def decrypt_message():
     key = in_key
     sep()
     key_spin = int(len(key)) % 6
+    current_time = int(time.time())
+    inverse_key = (int(len(key)) - int(len(key)) * 2)
+    rotated_encrypted_message = rotate_rotor(''.join(in_msg), int(inverse_key))
 
     if key_spin <= 1:
         key_spin = (key_spin + 2)
     else:
         pass
-
-    inverse_key = (int(len(key)) - int(len(key)) * 2)
-    rotated_encrypted_message = rotate_rotor(''.join(in_msg), int(inverse_key))
 
     for enum_chars, encrypted_letters in enumerate(rotated_encrypted_message):
         msg_chars = ord(encrypted_letters)
@@ -164,13 +165,12 @@ def encrypt_file():
     key = in_key
     sep()
     key_spin = int(len(key)) % 6
+    current_time = int(time.time())
 
     if key_spin <= 1:
         key_spin = (key_spin + 2)
     else:
         pass
-
-    current_time = int(time.time())
 
     for enum_chars, chars in enumerate(get_bytes_from_files(user_file)):
         msg_chars = chars
@@ -203,8 +203,8 @@ def encrypt_file():
 
 def decrypt_file():
     encrypted_numbers_list = []
+    b64_decoded_file = []
     decrypted_file = []
-    b64_decrypted_file = []
 
     print(pyfiglet.figlet_format('INPUT FILE TO DECRYPT:', font='cybermedium'))
     sep()
@@ -216,14 +216,13 @@ def decrypt_file():
     key = in_key
     sep()
     key_spin = int(len(key)) % 6
+    current_time = int(time.time())
+    inverse_key = (int(len(key)) - int(len(key)) * 2)
 
     if key_spin <= 1:
         key_spin = (key_spin + 2)
     else:
         pass
-
-    current_time = int(time.time())
-    inverse_key = (int(len(key)) - int(len(key)) * 2)
 
     with open(user_file, encoding='utf-8') as f:
 
@@ -237,10 +236,10 @@ def decrypt_file():
         key_chars = ord(key[enum_chars % len(key)])
 
         randomize_alg = int((msg_chars / key_spin) / key_chars) % 1114100
-        decrypted_file.append(chr(randomize_alg))
+        b64_decoded_file.append(chr(randomize_alg))
 
     try:
-        decoded_b64_encrypted_msg = base64.b64decode(''.join(decrypted_file))
+        decoded_b64_encrypted_msg = base64.b64decode(''.join(b64_decoded_file))
 
     except (TypeError, ValueError, UnicodeDecodeError) as e:
         print("KEY ERROR: ", e)
@@ -252,10 +251,10 @@ def decrypt_file():
         key_chars = ord(key[enum_chars % len(key)])
 
         randomize_alg = int((msg_chars / 2) / key_chars)
-        b64_decrypted_file.append(randomize_alg)
+        decrypted_file.append(randomize_alg)
 
     with open(os.path.expanduser(r'~/{0}').format(user_file_filename), 'wb') as f:
-        f.write(bytearray(b64_decrypted_file))
+        f.write(bytearray(decrypted_file))
 
     print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
     sep()
