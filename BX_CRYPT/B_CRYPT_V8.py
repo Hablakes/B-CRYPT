@@ -3,9 +3,8 @@ import os
 import textwrap
 
 import pyfiglet
-
-from tkinter import *
-from tkinter.filedialog import askopenfilename
+import tkinter
+import tkinter.filedialog
 
 
 def main():
@@ -31,9 +30,7 @@ def interface():
     print()
     print('7) GENERATE NEW RSA KEYS     8) EXIT')
     sep()
-
     bct_input = input('ENTER OPTION #: ')
-
     sep()
 
     if int(bct_input) == 1:
@@ -60,16 +57,11 @@ def encrypt_message():
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT:', font='cybermedium'))
     sep()
-
     in_msg = input()
-
+    print('-' * 100)
     print()
-    print('ENTER KEY: ')
-    print()
-
-    in_key = input()
+    in_key = input('ENTER KEY: ')
     key = in_key
-
     sep()
 
     key_spin = int(len(key)) % 6
@@ -108,21 +100,16 @@ def encrypt_message():
 
 
 def decrypt_message():
-    decrypted_msg_s1 = []
+    decrypted_msg = []
     b64_decrypted_msg = []
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT:', font='cybermedium'))
     sep()
-
     in_msg = input()
-
+    print('-' * 100)
     print()
-    print('ENTER KEY: ')
-    print()
-
-    in_key = input()
+    in_key = input('ENTER KEY: ')
     key = in_key
-
     sep()
 
     key_spin = int(len(key)) % 6
@@ -141,10 +128,10 @@ def decrypt_message():
         key_chars = ord(key[enum_chars % len(key)])
 
         randomize_alg = int((msg_chars / key_spin) / key_chars)
-        decrypted_msg_s1.append(chr(randomize_alg))
+        decrypted_msg.append(chr(randomize_alg))
 
     try:
-        decoded_b64_encrypted_msg = base64.b64decode(''.join(decrypted_msg_s1))
+        decoded_b64_encrypted_msg = base64.b64decode(''.join(decrypted_msg))
 
     except (TypeError, ValueError, UnicodeDecodeError) as e:
         print("KEY ERROR: ", e)
@@ -172,21 +159,12 @@ def encrypt_file():
 
     print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT:', font='cybermedium'))
     sep()
-
-    root = Tk()
-    root.withdraw()
-    root.update()
-    file_to_encrypt = askopenfilename()
-    root.destroy()
-    file_to_encrypt_filename = file_to_encrypt.rsplit('/', 1)[-1]
-
+    user_file = tk_gui_file_selection_window()
+    user_file_filename = user_file.rsplit('/', 1)[-1]
     print('-' * 100)
     print()
-    print('ENTER KEY: ')
-
-    in_key = input()
+    in_key = input('ENTER KEY: ')
     key = in_key
-
     sep()
 
     key_spin = int(len(key)) % 6
@@ -196,7 +174,7 @@ def encrypt_file():
     else:
         pass
 
-    for enum_chars, chars in enumerate(get_bytes_from_files(file_to_encrypt)):
+    for enum_chars, chars in enumerate(get_bytes_from_files(user_file)):
         msg_chars = ord(chr(chars))
         key_chars = ord(key[enum_chars % len(key)])
 
@@ -205,7 +183,7 @@ def encrypt_file():
 
     rotation_mix = rotate_rotor(encrypted_file, int(len(key)))
 
-    with open(os.path.expanduser(r'~/{0}').format(file_to_encrypt_filename) + '.bc', 'w', encoding='utf-8') as f:
+    with open(os.path.expanduser(r'~/{0}').format(user_file_filename) + '.bc', 'w', encoding='utf-8') as f:
         for encrypted_numbers in rotation_mix:
             f.write(str(int(encrypted_numbers)))
             f.write('\n')
@@ -221,21 +199,12 @@ def decrypt_file():
 
     print(pyfiglet.figlet_format('INPUT FILE TO DECRYPT:', font='cybermedium'))
     sep()
-
-    root = Tk()
-    root.withdraw()
-    root.update()
-    file_to_decrypt = askopenfilename()
-    root.destroy()
-    file_to_decrypt_filename = file_to_decrypt.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-
+    user_file = tk_gui_file_selection_window()
+    user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print('-' * 100)
     print()
-    print('ENTER KEY: ')
-
-    in_key = input()
+    in_key = input('ENTER KEY: ')
     key = in_key
-
     sep()
 
     key_spin = int(len(key)) % 6
@@ -247,7 +216,7 @@ def decrypt_file():
 
     inverse_key = (int(len(key)) - int(len(key)) * 2)
 
-    with open(file_to_decrypt, encoding='utf-8') as f:
+    with open(user_file, encoding='utf-8') as f:
 
         for encrypted_numbers in f:
             encrypted_numbers_list.append(chr(int(encrypted_numbers.rstrip('\n'))))
@@ -261,7 +230,7 @@ def decrypt_file():
         randomize_alg = int((msg_chars / key_spin) / key_chars) % 1114100
         decrypted_file.append(randomize_alg)
 
-    with open(os.path.expanduser(r'~/{0}').format(file_to_decrypt_filename), 'wb') as f:
+    with open(os.path.expanduser(r'~/{0}').format(user_file_filename), 'wb') as f:
         f.write(bytearray(decrypted_file))
 
     print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
@@ -273,12 +242,10 @@ def get_bytes_from_files(filename):
     print('ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH: ')
     print()
     print('DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: "1024"')
-    print()
-    print('-' * 100)
-
+    sep()
     input_bytes_amount = input()
     input_bytes_amount_int = int(input_bytes_amount)
-
+    sep()
     with open(filename, 'rb') as f:
 
         while True:
@@ -299,6 +266,15 @@ def rotate_rotor(alphabet, rotations):
 def sep():
     for item in '\n', '-' * 100, '\n':
         print(item)
+
+
+def tk_gui_file_selection_window():
+    root = tkinter.Tk()
+    root.withdraw()
+    root.update()
+    selected_file = tkinter.filedialog.askopenfilename()
+    root.destroy()
+    return selected_file
 
 
 if __name__ == '__main__':
