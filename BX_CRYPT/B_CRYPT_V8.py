@@ -161,8 +161,8 @@ def encrypt_file():
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('/', 1)[-1]
-    print('-' * 100)
-    print()
+    print("FILE SELECTED: ",  user_file_filename)
+    sep()
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
@@ -201,8 +201,8 @@ def decrypt_file():
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-    print('-' * 100)
-    print()
+    print("FILE SELECTED: ",  user_file_filename)
+    sep()
     in_key = input('ENTER KEY: ')
     key = in_key
     sep()
