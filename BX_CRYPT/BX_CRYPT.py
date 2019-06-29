@@ -19,13 +19,13 @@ def interface():
     print('-' * 100)
     print()
     print()
-    print('SYMMETRICAL KEY ENCRYPTION OPTIONS:')
+    print('SYMMETRICAL KEY ENCRYPTION OPTIONS: ')
     print()
     print('1) ENCRYPT A MESSAGE         2) DECRYPT A MESSAGE')
     print()
     print('3) ENCRYPT A FILE            4) DECRYPT A FILE')
     sep()
-    print('ASYMMETRICAL KEY ENCRYPTION OPTIONS:')
+    print('ASYMMETRICAL KEY ENCRYPTION OPTIONS: ')
     print()
     print('5) ENCRYPT A FILE            6) DECRYPT A FILE')
     print()
@@ -56,7 +56,7 @@ def encrypt_message():
     encrypted_msg = []
     b64_encrypted_msg = []
 
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT:', font='cybermedium'))
+    print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
     sep()
     in_msg = input()
     sep()
@@ -103,7 +103,7 @@ def decrypt_message():
     decrypted_msg = []
     b64_decrypted_msg = []
 
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT:', font='cybermedium'))
+    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
     sep()
     in_msg = input()
     sep()
@@ -155,7 +155,7 @@ def encrypt_file():
     encrypted_file = []
     b64_encrypted_file = []
 
-    print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT:', font='cybermedium'))
+    print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT: ', font='cybermedium'))
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('/', 1)[-1]
@@ -206,7 +206,7 @@ def decrypt_file():
     b64_decoded_file = []
     decrypted_file = []
 
-    print(pyfiglet.figlet_format('INPUT FILE TO DECRYPT:', font='cybermedium'))
+    print(pyfiglet.figlet_format('INPUT FILE TO DECRYPT: ', font='cybermedium'))
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
