@@ -28,7 +28,7 @@ def interface():
     print()
     print('5) ENCRYPT A FILE            6) DECRYPT A FILE')
     print()
-    print('7) GENERATE NEW RSA KEYS     8) EXIT')
+    print('7) GENERATE NEW KEYS         8) EXIT')
     sep()
     bct_input = input('ENTER OPTION #: ')
     sep()
@@ -116,7 +116,6 @@ def decrypt_message():
         pass
 
     inverse_key = (int(len(key)) - int(len(key)) * 2)
-
     rotated_encrypted_message = rotate_rotor(''.join(in_msg), int(inverse_key))
 
     for enum_chars, encrypted_letters in enumerate(rotated_encrypted_message):
@@ -241,7 +240,6 @@ def get_bytes_from_files(filename):
     input_bytes_amount_int = int(input_bytes_amount)
     sep()
     with open(filename, 'rb') as f:
-
         while True:
             bytes_amount = f.read(input_bytes_amount_int)
 
