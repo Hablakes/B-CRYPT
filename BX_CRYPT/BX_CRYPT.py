@@ -131,7 +131,7 @@ def decrypt_message():
         decoded_b64_encrypted_msg = base64.b64decode(''.join(decrypted_msg))
 
     except (TypeError, ValueError, UnicodeDecodeError) as e:
-        print("KEY ERROR: ", e)
+        print('KEY ERROR: ', e)
         print()
         return
 
@@ -159,7 +159,7 @@ def encrypt_file():
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('/', 1)[-1]
-    print("FILE SELECTED: ",  user_file_filename)
+    print('FILE SELECTED: ',  user_file_filename)
     sep()
     in_key = input('ENTER KEY: ')
     key = in_key
@@ -210,7 +210,7 @@ def decrypt_file():
     sep()
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-    print("FILE SELECTED: ",  user_file_filename)
+    print('FILE SELECTED: ',  user_file_filename)
     sep()
     in_key = input('ENTER KEY: ')
     key = in_key
@@ -242,7 +242,7 @@ def decrypt_file():
         decoded_b64_encrypted_msg = base64.b64decode(''.join(b64_decoded_file))
 
     except (TypeError, ValueError, UnicodeDecodeError) as e:
-        print("KEY ERROR: ", e)
+        print('KEY ERROR: ', e)
         print()
         return
 
