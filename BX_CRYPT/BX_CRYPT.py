@@ -15,7 +15,7 @@ def main():
 
 def interface():
     print('-' * 100)
-    print(pyfiglet.figlet_format('B-CRYPTO-TOOL', font='cybermedium'))
+    print(pyfiglet.figlet_format('BX-CRYPT', font='cybermedium'))
     print('-' * 100)
     print()
     print()
@@ -58,10 +58,9 @@ def encrypt_message():
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
     sep()
-    in_msg = input()
+    in_msg = input('ENTER MESSAGE: ')
     sep()
-    in_key = input('ENTER KEY: ')
-    key = in_key
+    key = input('ENTER KEY: ')
     sep()
     key_spin = int(len(key)) % 6
     current_time = int(time.time())
@@ -70,6 +69,8 @@ def encrypt_message():
         key_spin = (key_spin + 2)
     else:
         pass
+
+    time_spin = int(current_time) // (int(key_spin) * 1024)
 
     for enum_chars, chars in enumerate(in_msg):
         msg_chars = ord(chars)
@@ -88,6 +89,9 @@ def encrypt_message():
         randomize_alg = (msg_chars * key_spin) * key_chars
         b64_encrypted_msg.append(chr(randomize_alg))
 
+    b64_encrypted_msg.insert(int(key_spin), chr(int(time_spin)))
+    rotated_encrypted_msg = rotate_rotor(''.join(b64_encrypted_msg), int(len(key)))
+
     print()
     print('MESSAGE INPUT: ', in_msg)
     print()
@@ -95,32 +99,37 @@ def encrypt_message():
     sep()
     print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
     print()
-    print(rotate_rotor(''.join(b64_encrypted_msg), int(len(key))))
+    print(rotated_encrypted_msg)
     sep()
 
 
 def decrypt_message():
-    decrypted_msg = []
+    rotated_encrypted_message_list = []
     b64_decrypted_msg = []
+    decrypted_msg = []
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
     sep()
-    in_msg = input()
+    in_msg = input('ENTER MESSAGE: ')
     sep()
-    in_key = input('ENTER KEY: ')
-    key = in_key
+    key = input('ENTER KEY: ')
     sep()
     key_spin = int(len(key)) % 6
-    current_time = int(time.time())
     inverse_key = (int(len(key)) - int(len(key)) * 2)
-    rotated_encrypted_message = rotate_rotor(''.join(in_msg), int(inverse_key))
 
     if key_spin <= 1:
         key_spin = (key_spin + 2)
     else:
         pass
 
-    for enum_chars, encrypted_letters in enumerate(rotated_encrypted_message):
+    rotated_encrypted_message = rotate_rotor(''.join(in_msg), int(inverse_key))
+
+    for chars in rotated_encrypted_message:
+        rotated_encrypted_message_list.append(chars)
+
+    time_spin_char = rotated_encrypted_message_list.pop(int(key_spin))
+
+    for enum_chars, encrypted_letters in enumerate(rotated_encrypted_message_list):
         msg_chars = ord(encrypted_letters)
         key_chars = ord(key[enum_chars % len(key)])
 
@@ -161,8 +170,7 @@ def encrypt_file():
     user_file_filename = user_file.rsplit('/', 1)[-1]
     print('FILE SELECTED: ',  user_file_filename)
     sep()
-    in_key = input('ENTER KEY: ')
-    key = in_key
+    key = input('ENTER KEY: ')
     sep()
     key_spin = int(len(key)) % 6
     current_time = int(time.time())
@@ -171,6 +179,8 @@ def encrypt_file():
         key_spin = (key_spin + 2)
     else:
         pass
+
+    time_spin = int(current_time) // (int(key_spin) * 1024)
 
     for enum_chars, chars in enumerate(get_bytes_from_files(user_file)):
         msg_chars = chars
@@ -189,10 +199,11 @@ def encrypt_file():
         randomize_alg = (msg_chars * key_spin) * key_chars
         b64_encrypted_file.append(randomize_alg)
 
-    rotation_mix = rotate_rotor(b64_encrypted_file, int(len(key)))
+    b64_encrypted_file.insert(int(key_spin), int(time_spin))
+    rotated_encrypted_file = rotate_rotor(b64_encrypted_file, int(len(key)))
 
     with open(os.path.expanduser(r'~/{0}').format(user_file_filename) + '.bc', 'w', encoding='utf-8') as f:
-        for encrypted_numbers in rotation_mix:
+        for encrypted_numbers in rotated_encrypted_file:
             f.write(str(int(encrypted_numbers)))
             f.write('\n')
         f.close()
@@ -203,6 +214,7 @@ def encrypt_file():
 
 def decrypt_file():
     encrypted_numbers_list = []
+    rotated_encrypted_file_list = []
     b64_decoded_file = []
     decrypted_file = []
 
@@ -212,11 +224,9 @@ def decrypt_file():
     user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print('FILE SELECTED: ',  user_file_filename)
     sep()
-    in_key = input('ENTER KEY: ')
-    key = in_key
+    key = input('ENTER KEY: ')
     sep()
     key_spin = int(len(key)) % 6
-    current_time = int(time.time())
     inverse_key = (int(len(key)) - int(len(key)) * 2)
 
     if key_spin <= 1:
@@ -229,9 +239,14 @@ def decrypt_file():
         for encrypted_numbers in f:
             encrypted_numbers_list.append(chr(int(encrypted_numbers.rstrip('\n'))))
 
-    rotated_encrypted_message = rotate_rotor(''.join(encrypted_numbers_list), int(inverse_key))
+    rotated_encrypted_file = rotate_rotor(''.join(encrypted_numbers_list), int(inverse_key))
 
-    for enum_chars, encrypted_letters in enumerate(rotated_encrypted_message):
+    for chars in rotated_encrypted_file:
+        rotated_encrypted_file_list.append(chars)
+
+    time_spin_char = rotated_encrypted_file_list.pop(int(key_spin))
+
+    for enum_chars, encrypted_letters in enumerate(rotated_encrypted_file_list):
         msg_chars = ord(encrypted_letters)
         key_chars = ord(key[enum_chars % len(key)])
 
@@ -266,7 +281,7 @@ def get_bytes_from_files(filename):
     print()
     print('DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: "1024"')
     sep()
-    input_bytes_amount = input()
+    input_bytes_amount = input('ENTER BYTE AMOUNT: ')
     input_bytes_amount_int = int(input_bytes_amount)
     sep()
     with open(filename, 'rb') as f:
@@ -281,8 +296,8 @@ def get_bytes_from_files(filename):
                 break
 
 
-def rotate_rotor(alphabet, rotations):
-    return alphabet[rotations:] + alphabet[:rotations]
+def rotate_rotor(character_set, rotations):
+    return character_set[rotations:] + character_set[:rotations]
 
 
 def sep():
