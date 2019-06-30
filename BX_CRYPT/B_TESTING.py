@@ -35,6 +35,10 @@ def interface():
         encrypt_message()
     elif int(user_input) == 2:
         decrypt_message()
+    elif int(user_input) == 3:
+        pass
+    elif int(user_input) == 4:
+        pass
     elif int(user_input) == 8:
         exit()
 
@@ -62,11 +66,12 @@ def encrypt_message():
     for character_enumeration_number, characters in enumerate(input_message):
         message_characters = ord(characters)
         key_characters = ord(key[character_enumeration_number % len(key)])
-        random_characters = key_spin % message_characters
+        random_characters = int(message_characters * key_spin)
         randomize_algorithm = (message_characters * 2) * key_characters
 
+        print(random_characters)
+
         encrypted_message_list.append(chr(randomize_algorithm))
-        print(characters, key_characters, key_spin, message_characters, randomize_algorithm, random_characters)
 
     encrypted_message_list_bytes = ''.join(encrypted_message_list).encode('utf-8')
     encoded_base64_encrypted_message = base64.b64encode(encrypted_message_list_bytes)

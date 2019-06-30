@@ -80,7 +80,7 @@ def encrypt_message():
         base64_encrypted_message_list.append(chr(randomize_algorithm))
 
     base64_encrypted_message_list.insert(int(key_spin), chr(int(time_spin)))
-    rotated_encrypted_msg = rotate_rotor(''.join(base64_encrypted_message_list), int(len(key)))
+    rotated_encrypted_message = rotate_rotor(''.join(base64_encrypted_message_list), int(len(key)))
 
     print()
     print('MESSAGE INPUT: ', input_message)
@@ -89,7 +89,7 @@ def encrypt_message():
     separator()
     print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
     print()
-    print(rotated_encrypted_msg)
+    print(rotated_encrypted_message)
     separator()
 
 
