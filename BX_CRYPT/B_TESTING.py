@@ -56,15 +56,22 @@ def encrypt_message():
 
     message_length_integer = int(len(message))
     key_length_integer = int(len(key))
-    multiplied_length_integer = int(message_length_integer * key_length_integer)
+    multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
-    time_multiplier = int(current_time * message_length_integer)
+    time_multiplier = current_time * message_length_integer
     time_divider = time_multiplier // current_time
+    time_bit = abs(current_time) % 100
+
+    for multiplied_numbers in encrypted_message_list:
+        pseudo_random_multiplied_numbers = multiplied_numbers + (time_divider + time_bit)
+        semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
     print(encrypted_message_list)
     separator()
     print(message_length_integer, key_length_integer, multiplied_length_integer, current_time, time_multiplier,
-          time_divider)
+          time_divider, time_bit)
+    separator()
+    print(semantic_encryption_list)
 
 
 def decrypt_message():
