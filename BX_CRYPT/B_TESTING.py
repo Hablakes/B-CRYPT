@@ -59,10 +59,12 @@ def encrypt_message():
     multiplied_length_integer = int(message_length_integer * key_length_integer)
     current_time = int(time.time())
     time_multiplier = int(current_time * message_length_integer)
+    time_divider = time_multiplier // current_time
 
     print(encrypted_message_list)
     separator()
-    print(message_length_integer, key_length_integer, multiplied_length_integer, current_time, time_multiplier)
+    print(message_length_integer, key_length_integer, multiplied_length_integer, current_time, time_multiplier,
+          time_divider)
 
 
 def decrypt_message():
