@@ -45,20 +45,39 @@ def encrypt_message():
     semantic_encryption_list = []
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
+
     separator()
+
     message = input('ENTER MESSAGE: ')
+
     separator()
+
     key = input('ENTER KEY: ')
+
     separator()
+
     current_time = int(time.time())
 
+    message_length_integer = int(len(message))
+    key_length_integer = int(len(key))
+
+    print(current_time, message_length_integer, key_length_integer)
+
+    separator()
+
     for character_enumeration_number, character in enumerate(message):
-        print(character_enumeration_number, character)
+        message_character_ordinal = ord(character)
+        key_enumeration_modulo = ord(key[character_enumeration_number % len(key)])
+
+        print(character_enumeration_number, character, message_character_ordinal, key_enumeration_modulo)
 
     separator()
 
     for character_enumeration_number, character in enumerate(key):
-        print(character_enumeration_number, character)
+        key_character_ordinal = ord(character)
+        key_enumeration_modulo = ord(key[character_enumeration_number % len(key)])
+
+        print(character_enumeration_number, character, key_character_ordinal, key_enumeration_modulo)
 
     print()
     print('MESSAGE INPUT: ', message)
@@ -66,7 +85,6 @@ def encrypt_message():
     print('KEY INPUT: ', key)
     separator()
     print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
-    print()
     print()
     separator()
 
