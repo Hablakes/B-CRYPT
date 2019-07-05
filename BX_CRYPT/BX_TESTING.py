@@ -1,3 +1,4 @@
+import random
 import time
 
 import pyfiglet
@@ -29,12 +30,17 @@ def interface():
     user_input = input('ENTER OPTION #: ')
     separator()
 
-    if int(user_input) == 1:
-        encrypt_message()
-    elif int(user_input) == 2:
-        decrypt_message()
-    elif int(user_input) == 3:
-        exit()
+    try:
+        if int(user_input) == 1:
+            encrypt_message()
+        elif int(user_input) == 2:
+            decrypt_message()
+        elif int(user_input) == 3:
+            exit()
+    except ValueError as e:
+        print(e)
+        separator()
+        print("INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ")
 
 
 def encrypt_message():
@@ -63,7 +69,6 @@ def encrypt_message():
     multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
     time_bit = abs(current_time) % 100
-    time_bit_obscurer = int(str(added_length_integer) + str(time_bit))
 
     for multiplied_numbers in encrypted_message_list:
         pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
@@ -71,10 +76,19 @@ def encrypt_message():
 
     encrypted_number_lengths = [len(str(i)) for i in semantic_encryption_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
+    time_bit_obscurer_length = int(average_encrypted_number_length - 2)
+    time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
+    time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
 
 
 def decrypt_message():
     pass
+
+
+def random_number_with_obscurer_digits(number_of_digits):
+    number_range_start = 10 ** (number_of_digits - 1)
+    number_range_end = (10 ** number_of_digits) - 1
+    return random.randint(number_range_start, number_range_end)
 
 
 def rotate_rotor(character_set, rotations):
