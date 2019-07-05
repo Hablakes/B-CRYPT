@@ -37,6 +37,7 @@ def interface():
             decrypt_message()
         elif int(user_input) == 3:
             exit()
+
     except ValueError as e:
         print(e)
         separator()
@@ -79,6 +80,10 @@ def encrypt_message():
     time_bit_obscurer_length = int(average_encrypted_number_length - 2)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
     time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
+
+    semantic_encryption_list.append(time_bit_obscurer)
+
+    print(semantic_encryption_list)
 
 
 def decrypt_message():
