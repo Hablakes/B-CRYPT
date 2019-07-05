@@ -58,28 +58,27 @@ def encrypt_message():
 
     separator()
 
-    for character_enumeration_number, character in enumerate(message):
-        message_character_ordinal = ord(character)
-        key_enumeration_ordinal = ord(key[character_enumeration_number % len(key)])
-        multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
-        encrypted_message_list.append(multiplied_message_integer)
-
     message_length_integer = int(len(message))
     key_length_integer = int(len(key))
     added_length_integer = message_length_integer + key_length_integer
     multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
     time_bit = abs(current_time) % 100
-
-    for multiplied_numbers in encrypted_message_list:
-        pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
-        semantic_encryption_list.append(pseudo_random_multiplied_numbers)
-
     encrypted_number_lengths = [len(str(i)) for i in semantic_encryption_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     time_bit_obscurer_length = int(average_encrypted_number_length - 2)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
     time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
+
+    for character_enumeration_number, character in enumerate(message):
+        message_character_ordinal = ord(character)
+        key_enumeration_ordinal = ord(key[character_enumeration_number % len(key)])
+        multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
+        encrypted_message_list.append(multiplied_message_integer)
+
+    for multiplied_numbers in encrypted_message_list:
+        pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
+        semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
     semantic_encryption_list.append(time_bit_obscurer)
 
