@@ -21,9 +21,7 @@ def interface():
     print()
     print('1) ENCRYPT A MESSAGE         2) DECRYPT A MESSAGE')
     print()
-    print('3) ENCRYPT A FILE            4) DECRYPT A FILE')
-    print()
-    print('8) EXIT')
+    print('3) EXIT')
     separator()
     user_input = input('ENTER OPTION #: ')
     separator()
@@ -33,10 +31,6 @@ def interface():
     elif int(user_input) == 2:
         decrypt_message()
     elif int(user_input) == 3:
-        pass
-    elif int(user_input) == 4:
-        pass
-    elif int(user_input) == 8:
         exit()
 
 
