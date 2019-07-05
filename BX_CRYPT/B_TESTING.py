@@ -11,7 +11,7 @@ def main():
 
 
 def interface():
-    print('-' * 100)
+    separator()
     print(pyfiglet.figlet_format('BX-CRYPT', font='cybermedium'))
     print("*** TESTING BRANCH ***")
     print('-' * 100)
@@ -54,32 +54,20 @@ def encrypt_message():
 
     separator()
 
-    message_length_integer = int(len(message))
-    key_length_integer = int(len(key))
-
-    current_time = int(time.time())
-    time_spin = int(current_time // (message_length_integer + key_length_integer))
-
-    separator()
-
     for character_enumeration_number, character in enumerate(message):
         message_character_ordinal = ord(character)
         key_enumeration_ordinal = ord(key[character_enumeration_number % len(key)])
         multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
+        encrypted_message_list.append(multiplied_message_integer)
 
-    separator()
+    message_length_integer = int(len(message))
+    key_length_integer = int(len(key))
+    multiplied_length_integer = int(message_length_integer * key_length_integer)
+    current_time = int(time.time())
+    time_spin = int(current_time // (message_length_integer + key_length_integer))
 
-    print()
-    print('MESSAGE INPUT: ', message)
-    print()
-    print('KEY INPUT: ', key)
-
-    separator()
-
-    print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
-    print()
-
-    separator()
+    print(encrypted_message_list, message_length_integer, key_length_integer, multiplied_length_integer, current_time,
+          time_spin)
 
 
 def decrypt_message():
