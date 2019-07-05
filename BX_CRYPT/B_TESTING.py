@@ -58,7 +58,7 @@ def encrypt_message():
     key_length_integer = int(len(key))
     multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
-    time_multiplier = current_time * message_length_integer
+    time_multiplier = current_time * multiplied_length_integer
     time_divider = time_multiplier // current_time
     time_bit = abs(current_time) % 100
 
