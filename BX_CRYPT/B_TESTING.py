@@ -1,6 +1,3 @@
-import base64
-import os
-import textwrap
 import time
 
 import pyfiglet
@@ -45,113 +42,37 @@ def interface():
 
 def encrypt_message():
     encrypted_message_list = []
-    base64_encrypted_message_list = []
+    semantic_encryption_list = []
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
     separator()
-    input_message = input('ENTER MESSAGE: ')
+    message = input('ENTER MESSAGE: ')
     separator()
     key = input('ENTER KEY: ')
     separator()
-    key_spin = int(len(key)) % 6
     current_time = int(time.time())
 
-    if key_spin <= 1:
-        key_spin = (key_spin + 2)
-    else:
-        pass
+    for character_enumeration_number, character in enumerate(message):
+        print(character_enumeration_number, character)
 
-    time_spin = int(current_time) // (int(key_spin) * 2048)
+    separator()
 
-    for character_enumeration_number, characters in enumerate(input_message):
-        message_characters = ord(characters)
-        key_characters = ord(key[character_enumeration_number % len(key)])
-        random_characters = int(message_characters * key_spin)
-        randomize_algorithm = (message_characters * 2) * key_characters
-
-        print(random_characters)
-
-        encrypted_message_list.append(chr(randomize_algorithm))
-
-    encrypted_message_list_bytes = ''.join(encrypted_message_list).encode('utf-8')
-    encoded_base64_encrypted_message = base64.b64encode(encrypted_message_list_bytes)
-
-    for character_enumeration_number, characters in enumerate(encoded_base64_encrypted_message.decode('utf-8')):
-        message_characters = ord(characters)
-        key_characters = ord(key[character_enumeration_number % len(key)])
-        randomize_algorithm = (message_characters * key_spin) * key_characters
-
-        base64_encrypted_message_list.append(chr(randomize_algorithm))
-
-    base64_encrypted_message_list.insert(int(key_spin), chr(int(time_spin)))
-    rotated_encrypted_msg = rotate_rotor(''.join(base64_encrypted_message_list), int(len(key)))
+    for character_enumeration_number, character in enumerate(key):
+        print(character_enumeration_number, character)
 
     print()
-    print('MESSAGE INPUT: ', input_message)
+    print('MESSAGE INPUT: ', message)
     print()
     print('KEY INPUT: ', key)
     separator()
     print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
     print()
-    print(rotated_encrypted_msg)
+    print()
     separator()
 
 
 def decrypt_message():
-    rotated_encrypted_message_list = []
-    base64_decrypted_message_list = []
-    decrypted_message_list = []
-
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
-    separator()
-    input_message = input('ENTER MESSAGE: ')
-    separator()
-    key = input('ENTER KEY: ')
-    separator()
-    key_spin = int(len(key)) % 6
-    inverse_key = (int(len(key)) - int(len(key)) * 2)
-
-    if key_spin <= 1:
-        key_spin = (key_spin + 2)
-    else:
-        pass
-
-    rotated_encrypted_message = rotate_rotor(''.join(input_message), int(inverse_key))
-
-    for characters in rotated_encrypted_message:
-        rotated_encrypted_message_list.append(characters)
-
-    time_spin_character = rotated_encrypted_message_list.pop(int(key_spin))
-
-    for character_enumeration_number, encrypted_letters in enumerate(rotated_encrypted_message_list):
-        message_characters = ord(encrypted_letters)
-        key_characters = ord(key[character_enumeration_number % len(key)])
-        randomize_algorithm = int((message_characters / key_spin) / key_characters)
-
-        decrypted_message_list.append(chr(randomize_algorithm))
-
-    try:
-        decoded_base64_encrypted_message = base64.b64decode(''.join(decrypted_message_list))
-
-    except (TypeError, ValueError, UnicodeDecodeError) as e:
-        print('KEY ERROR: ', e)
-        print()
-        return
-
-    for character_enumeration_number, encrypted_letters in enumerate(decoded_base64_encrypted_message.decode('utf-8')):
-        message_characters = ord(encrypted_letters)
-        key_characters = ord(key[character_enumeration_number % len(key)])
-
-        randomize_algorithm = int((message_characters / 2) / key_characters)
-        base64_decrypted_message_list.append(chr(randomize_algorithm))
-
-    print()
-    print('KEY INPUT: ', key)
-    separator()
-    print('DECRYPTED MESSAGE: ')
-    print()
-    print(textwrap.fill(''.join(base64_decrypted_message_list), 100))
-    separator()
+    pass
 
 
 def rotate_rotor(character_set, rotations):
