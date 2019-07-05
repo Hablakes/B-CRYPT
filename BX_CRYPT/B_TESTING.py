@@ -59,6 +59,7 @@ def encrypt_message():
 
     message_length_integer = int(len(message))
     key_length_integer = int(len(key))
+    added_length_integer = message_length_integer + key_length_integer
     multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
     time_bit = abs(current_time) % 100
@@ -70,7 +71,8 @@ def encrypt_message():
 
     print(encrypted_message_list)
     separator()
-    print(message_length_integer, key_length_integer, multiplied_length_integer, current_time, time_bit)
+    print(message_length_integer, key_length_integer, added_length_integer, multiplied_length_integer, current_time,
+          time_bit)
     separator()
     print(semantic_encryption_list)
 
