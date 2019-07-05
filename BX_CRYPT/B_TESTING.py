@@ -49,43 +49,36 @@ def encrypt_message():
     separator()
 
     message = input('ENTER MESSAGE: ')
-
     separator()
-
     key = input('ENTER KEY: ')
 
     separator()
 
-    current_time = int(time.time())
-
     message_length_integer = int(len(message))
     key_length_integer = int(len(key))
 
-    print(current_time, message_length_integer, key_length_integer)
+    current_time = int(time.time())
+    time_spin = int(current_time // (message_length_integer + key_length_integer))
 
     separator()
 
     for character_enumeration_number, character in enumerate(message):
         message_character_ordinal = ord(character)
-        key_enumeration_modulo = ord(key[character_enumeration_number % len(key)])
-
-        print(character_enumeration_number, character, message_character_ordinal, key_enumeration_modulo)
+        key_enumeration_ordinal = ord(key[character_enumeration_number % len(key)])
+        multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
 
     separator()
-
-    for character_enumeration_number, character in enumerate(key):
-        key_character_ordinal = ord(character)
-        key_enumeration_modulo = ord(key[character_enumeration_number % len(key)])
-
-        print(character_enumeration_number, character, key_character_ordinal, key_enumeration_modulo)
 
     print()
     print('MESSAGE INPUT: ', message)
     print()
     print('KEY INPUT: ', key)
+
     separator()
+
     print('ROTATED / FINAL ENCRYPTED MESSAGE: ')
     print()
+
     separator()
 
 
