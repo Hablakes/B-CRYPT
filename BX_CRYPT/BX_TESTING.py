@@ -54,6 +54,8 @@ def interface():
 
 
 def encrypt_message():
+    message_list = []
+    key_list = []
     encrypted_message_list = []
     semantic_encryption_list = []
 
@@ -62,18 +64,54 @@ def encrypt_message():
     separator()
 
     message = input('ENTER MESSAGE: ')
+
+    for message_characters in message:
+        message_list.append(message_characters)
+
+    message_length = int(len(message_list))
+
     separator()
-    key = input('ENTER KEY: ')
+
+    print('SYMMETRICAL KEY OPTIONS: ')
+    print()
+    print('1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
+
+    separator()
+
+    user_key_input = input('ENTER OPTION #: ')
+
+    separator()
+
+    try:
+        if int(user_key_input) == 1:
+            key = input('ENTER KEY: ')
+            key_list.append(key)
+
+        elif int(user_key_input) == 2:
+            one_time_pad_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxk')
+
+            key_list.append(random_string_with_one_time_pad_characters(message_length))
+
+            with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
+                for key_characters in key_list:
+                    f.write(key_characters)
+
+            print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
+
+    except ValueError as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
     separator()
 
     current_time = int(time.time())
-    time_bit = abs(current_time) % 1000
+    time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
 
-    for character_enumeration_number, character in enumerate(message):
-        message_character_ordinal = int(ord(character))
-        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
+    for character_enumeration_number, character in enumerate(message_list):
+        message_character_ordinal = ord(character)
+        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
         encrypted_message_list.append(multiplied_message_integer)
 
@@ -105,6 +143,7 @@ def encrypt_message():
 
 
 def decrypt_message():
+    key_list = []
     encrypted_numbers_list = []
     rotated_encrypted_file_list = []
     semantic_encrypted_file_list = []
@@ -115,18 +154,41 @@ def decrypt_message():
     separator()
 
     user_file = tk_gui_file_selection_window()
-    user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-    print('FILE SELECTED: ', user_file_filename)
+    user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
+    print('FILE SELECTED: ', user_file_original_filename)
 
     separator()
 
-    key = input('ENTER KEY: ')
+    print('SYMMETRICAL KEY OPTIONS: ')
+    print()
+    print('1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
 
     separator()
+
+    user_key_input = input('ENTER OPTION #: ')
+
+    separator()
+
+    try:
+        if int(user_key_input) == 1:
+            key = input('ENTER KEY: ')
+            key_list.append(key)
+
+        elif int(user_key_input) == 2:
+            key_file = tk_gui_file_selection_window()
+            for key_characters in key_file:
+                key_list.append(key_characters)
+
+    except ValueError as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
+
+    separator()
 
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
@@ -146,7 +208,7 @@ def decrypt_message():
 
     for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
         message_character_integer = int(character)
-        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
+        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
         decrypted_file_list.append(chr(divided_message_integer))
 
@@ -178,8 +240,6 @@ def encrypt_file():
 
     file_bytes_length = int(len(file_bytes_list))
 
-    separator()
-
     print('SYMMETRICAL KEY OPTIONS: ')
     print()
     print('1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
@@ -198,8 +258,6 @@ def encrypt_file():
         elif int(user_key_input) == 2:
             one_time_pad_file_path = os.path.expanduser(r'~/{0}').format(user_file_filename + '.bxk')
 
-            separator()
-
             key_list.append(random_string_with_one_time_pad_characters(file_bytes_length))
 
             with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
@@ -216,7 +274,7 @@ def encrypt_file():
     separator()
 
     current_time = int(time.time())
-    time_bit = abs(current_time) % 1000
+    time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
 
     for character_enumeration_number, character in enumerate(file_bytes_list):
