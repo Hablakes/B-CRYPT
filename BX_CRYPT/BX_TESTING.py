@@ -79,7 +79,7 @@ def encrypt_message():
         pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
-    encrypted_number_lengths = [len(str(i)) for i in semantic_encryption_list]
+    encrypted_number_lengths = [len(str(x)) for x in semantic_encryption_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
@@ -90,6 +90,7 @@ def encrypt_message():
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
 
     print('*** TEST RESULTS ***')
+    print()
     print(time_bit, time_bit_obscurer)
     print()
     print(encrypted_message_list)
@@ -132,7 +133,7 @@ def decrypt_message():
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
 
-    encrypted_number_lengths = [len(str(i)) for i in encrypted_numbers_list]
+    encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     inverse_average_encrypted_number_length = (average_encrypted_number_length - (average_encrypted_number_length * 2))
 
@@ -141,13 +142,29 @@ def decrypt_message():
     for characters in rotated_encrypted_file:
         rotated_encrypted_file_list.append(characters)
 
+    time_bit_obscurer = rotated_encrypted_file_list.pop()
+    time_bit = int(str(time_bit_obscurer)[:3])
+
+    for multiplied_numbers in rotated_encrypted_file_list:
+        pseudo_random_multiplied_numbers = multiplied_numbers - time_bit
+        semantic_encrypted_file_list.append(pseudo_random_multiplied_numbers)
+
     for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
         message_character_integer = int(character)
         key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
         decrypted_file_list.append(chr(divided_message_integer))
 
+    print('*** TEST RESULTS ***')
     print()
+    print(time_bit, time_bit_obscurer)
+    print()
+    print(encrypted_numbers_list)
+    print(rotated_encrypted_file_list)
+    print(semantic_encrypted_file_list)
+    print(decrypted_file_list)
+    separator()
+
     print('KEY INPUT: ', key)
     separator()
     print('DECRYPTED MESSAGE: ')
@@ -166,8 +183,8 @@ def rotate_rotor(character_set, rotations):
 
 
 def separator():
-    for item in '\n', '-' * 100, '\n':
-        print(item)
+    for x in '\n', '-' * 100, '\n':
+        print(x)
 
 
 def tk_gui_file_selection_window():
