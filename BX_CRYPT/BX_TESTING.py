@@ -87,6 +87,10 @@ def encrypt_message():
     semantic_encryption_list.append(time_bit_obscurer)
     rotated_semantic_encryption_list = rotate_rotor(semantic_encryption_list, average_encrypted_number_length)
 
+    print(semantic_encryption_list)
+    print(rotated_semantic_encryption_list)
+    print()
+
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
 
     with open(encrypted_file_path, 'w', encoding='utf-8') as f:
@@ -103,15 +107,37 @@ def encrypt_message():
 
 
 def decrypt_message():
+    encrypted_numbers_list = []
+    rotated_encrypted_file_list = []
+    decrypted_file_list = []
+
     print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
 
     separator()
 
-    message = input('ENTER MESSAGE: ')
+    user_file = tk_gui_file_selection_window()
+    user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
+    print('FILE SELECTED: ', user_file_filename)
     separator()
     key = input('ENTER KEY: ')
 
     separator()
+
+    with open(user_file, encoding='utf-8') as f:
+        for encrypted_numbers in f:
+            encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
+
+    encrypted_number_lengths = [len(str(i)) for i in encrypted_numbers_list]
+    average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
+    inverse_average_encrypted_number_length = (average_encrypted_number_length - (average_encrypted_number_length * 2))
+
+    rotated_encrypted_file = rotate_rotor(encrypted_numbers_list, inverse_average_encrypted_number_length)
+
+    for characters in rotated_encrypted_file:
+        rotated_encrypted_file_list.append(characters)
+
+    print(encrypted_numbers_list)
+    print(rotated_encrypted_file_list)
 
 
 def random_number_with_obscurer_digits(number_of_digits):
