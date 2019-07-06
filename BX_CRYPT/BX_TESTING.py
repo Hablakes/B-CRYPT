@@ -1,5 +1,6 @@
 import os
 import random
+import textwrap
 import time
 
 import pyfiglet
@@ -18,7 +19,7 @@ temp_message = []
 def interface():
     separator()
     print(pyfiglet.figlet_format('BX-CRYPT', font='cybermedium'))
-    print("*** TESTING BRANCH ***")
+    print('*** TESTING BRANCH ***')
     print('-' * 100)
     print()
     print()
@@ -42,7 +43,7 @@ def interface():
     except ValueError as e:
         print(e)
         separator()
-        print("INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ")
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
 
 def encrypt_message():
@@ -69,8 +70,8 @@ def encrypt_message():
     time_bit_length = int(len(str(time_bit)))
 
     for character_enumeration_number, character in enumerate(message):
-        message_character_ordinal = ord(character)
-        key_enumeration_ordinal = ord(key[character_enumeration_number % len(key)])
+        message_character_ordinal = int(ord(character))
+        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
         multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
         encrypted_message_list.append(multiplied_message_integer)
 
@@ -86,12 +87,15 @@ def encrypt_message():
 
     semantic_encryption_list.append(time_bit_obscurer)
     rotated_semantic_encryption_list = rotate_rotor(semantic_encryption_list, average_encrypted_number_length)
+    encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
 
+    print('*** TEST RESULTS ***')
+    print(time_bit, time_bit_obscurer)
+    print()
+    print(encrypted_message_list)
     print(semantic_encryption_list)
     print(rotated_semantic_encryption_list)
-    print()
-
-    encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
+    separator()
 
     with open(encrypted_file_path, 'w', encoding='utf-8') as f:
         for rotated_encrypted_numbers in rotated_semantic_encryption_list:
@@ -109,6 +113,7 @@ def encrypt_message():
 def decrypt_message():
     encrypted_numbers_list = []
     rotated_encrypted_file_list = []
+    semantic_encrypted_file_list = []
     decrypted_file_list = []
 
     print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
@@ -136,8 +141,18 @@ def decrypt_message():
     for characters in rotated_encrypted_file:
         rotated_encrypted_file_list.append(characters)
 
-    print(encrypted_numbers_list)
-    print(rotated_encrypted_file_list)
+    for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
+        message_character_integer = int(character)
+        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
+        divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
+        decrypted_file_list.append(chr(divided_message_integer))
+
+    print()
+    print('KEY INPUT: ', key)
+    separator()
+    print('DECRYPTED MESSAGE: ')
+    print()
+    print(textwrap.fill(''.join(decrypted_file_list), 100))
 
 
 def random_number_with_obscurer_digits(number_of_digits):
