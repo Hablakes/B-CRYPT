@@ -21,7 +21,7 @@ def interface():
     print('-' * 100)
     print()
     print()
-    print('SYMMETRICAL KEY ENCRYPTION OPTIONS: ')
+    print('ENCRYPTION OPTIONS: ')
     print()
     print('1) ENCRYPT A MESSAGE         2) DECRYPT A MESSAGE')
     print()
@@ -97,7 +97,7 @@ def encrypt_message():
             f.write('\n')
         f.close()
 
-    print(pyfiglet.figlet_format('FILE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
+    print(pyfiglet.figlet_format('MESSAGE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
 
     separator()
 
@@ -117,7 +117,9 @@ def decrypt_message():
     user_file = tk_gui_file_selection_window()
     user_file_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print('FILE SELECTED: ', user_file_filename)
+
     separator()
+
     key = input('ENTER KEY: ')
 
     separator()
@@ -148,7 +150,7 @@ def decrypt_message():
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
         decrypted_file_list.append(chr(divided_message_integer))
 
-    print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+    print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
     separator()
     print('DECRYPTED MESSAGE: ')
     print()
@@ -156,7 +158,9 @@ def decrypt_message():
 
 
 def encrypt_file():
-    encrypted_message_list = []
+    file_bytes_list = []
+    key_list = []
+    encrypted_file_bytes_list = []
     semantic_encryption_list = []
 
     print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT: ', font='cybermedium'))
@@ -169,7 +173,45 @@ def encrypt_file():
 
     separator()
 
-    key = input('ENTER KEY: ')
+    for file_bytes in get_bytes_from_files(user_file):
+        file_bytes_list.append(file_bytes)
+
+    file_bytes_length = int(len(file_bytes_list))
+
+    separator()
+
+    print('SYMMETRICAL KEY OPTIONS: ')
+    print()
+    print('1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
+
+    separator()
+
+    user_key_input = input('ENTER OPTION #: ')
+
+    separator()
+
+    try:
+        if int(user_key_input) == 1:
+            key = input('ENTER KEY: ')
+            key_list.append(key)
+
+        elif int(user_key_input) == 2:
+            one_time_pad_file_path = os.path.expanduser(r'~/{0}').format(user_file_filename + '.bxk')
+
+            separator()
+
+            key_list.append(random_string_with_one_time_pad_characters(file_bytes_length))
+
+            with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
+                for key_characters in key_list:
+                    f.write(key_characters)
+
+            print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
+
+    except ValueError as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
     separator()
 
@@ -177,13 +219,13 @@ def encrypt_file():
     time_bit = abs(current_time) % 1000
     time_bit_length = int(len(str(time_bit)))
 
-    for character_enumeration_number, character in enumerate(get_bytes_from_files(user_file)):
+    for character_enumeration_number, character in enumerate(file_bytes_list):
         message_character_ordinal = int(character)
-        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
+        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
-        encrypted_message_list.append(multiplied_message_integer)
+        encrypted_file_bytes_list.append(multiplied_message_integer)
 
-    for multiplied_numbers in encrypted_message_list:
+    for multiplied_numbers in encrypted_file_bytes_list:
         pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
@@ -211,26 +253,52 @@ def encrypt_file():
 
 
 def decrypt_file():
+    key_list = []
     encrypted_numbers_list = []
-    rotated_encrypted_file_list = []
-    semantic_encrypted_file_list = []
-    decrypted_file_list = []
+    rotated_encrypted_file_bytes_list = []
+    semantic_encrypted_file_bytes_list = []
+    decrypted_file_bytes_list = []
 
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
+    print(pyfiglet.figlet_format('INPUT FILE TO DECRYPT: ', font='cybermedium'))
 
     separator()
 
     user_file = tk_gui_file_selection_window()
     user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
     print('FILE SELECTED: ', user_file_original_filename)
-    separator()
-    key = input('ENTER KEY: ')
 
     separator()
+
+    print('SYMMETRICAL KEY OPTIONS: ')
+    print()
+    print('1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
+
+    separator()
+
+    user_key_input = input('ENTER OPTION #: ')
+
+    separator()
+
+    try:
+        if int(user_key_input) == 1:
+            key = input('ENTER KEY: ')
+            key_list.append(key)
+
+        elif int(user_key_input) == 2:
+            key_file = tk_gui_file_selection_window()
+            for key_characters in key_file:
+                key_list.append(key_characters)
+
+    except ValueError as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
+
+    separator()
 
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
@@ -239,25 +307,25 @@ def decrypt_file():
     rotated_encrypted_file = rotate_list_as_rotor(encrypted_numbers_list, inverse_average_encrypted_number_length)
 
     for characters in rotated_encrypted_file:
-        rotated_encrypted_file_list.append(characters)
+        rotated_encrypted_file_bytes_list.append(characters)
 
-    time_bit_obscurer = rotated_encrypted_file_list.pop()
+    time_bit_obscurer = rotated_encrypted_file_bytes_list.pop()
     time_bit = int(str(time_bit_obscurer)[:3])
 
-    for multiplied_numbers in rotated_encrypted_file_list:
+    for multiplied_numbers in rotated_encrypted_file_bytes_list:
         pseudo_random_multiplied_numbers = multiplied_numbers - time_bit
-        semantic_encrypted_file_list.append(pseudo_random_multiplied_numbers)
+        semantic_encrypted_file_bytes_list.append(pseudo_random_multiplied_numbers)
 
-    for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
+    for character_enumeration_number, character in enumerate(semantic_encrypted_file_bytes_list):
         message_character_integer = int(character)
-        key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
+        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
-        decrypted_file_list.append(divided_message_integer)
+        decrypted_file_bytes_list.append(divided_message_integer)
 
     decrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_original_filename)
 
     with open(decrypted_file_path, 'wb') as f:
-        f.write(bytearray(decrypted_file_list))
+        f.write(bytearray(decrypted_file_bytes_list))
 
     print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
 
@@ -270,32 +338,25 @@ def get_bytes_from_files(filename):
     print('ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH: ')
     print()
     print('DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: "1024"')
+    print()
 
-    separator()
+    try:
+        input_bytes_amount = input('ENTER BYTE AMOUNT: ')
+        with open(filename, 'rb') as f:
+            while True:
+                bytes_amount = f.read(int(input_bytes_amount))
 
-    input_bytes_amount = input('ENTER BYTE AMOUNT: ')
+                if bytes_amount:
 
-    separator()
+                    for bts in bytes_amount:
+                        yield bts
+                else:
+                    break
 
-    with open(filename, 'rb') as f:
-        while True:
-            bytes_amount = f.read(int(input_bytes_amount))
-
-            if bytes_amount:
-
-                for bts in bytes_amount:
-                    yield bts
-            else:
-                break
-
-
-def one_time_pad_file(message_length):
-    one_time_pad_name = str(input('ENTER NAME FOR ONE TIME PAD: '))
-
-    separator()
-
-    with open(os.path.expanduser(r'~/{0}').format(one_time_pad_name + '.bxk'), 'w', encoding='utf-8') as f:
-        f.write(random_string_with_one_time_pad_characters(message_length))
+    except ValueError as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
 
 
 def random_string_with_one_time_pad_characters(number_of_characters):
