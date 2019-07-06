@@ -89,15 +89,6 @@ def encrypt_message():
     rotated_semantic_encryption_list = rotate_rotor(semantic_encryption_list, average_encrypted_number_length)
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
 
-    print('*** TEST RESULTS ***')
-    print()
-    print(time_bit, time_bit_obscurer)
-    print()
-    print(encrypted_message_list)
-    print(semantic_encryption_list)
-    print(rotated_semantic_encryption_list)
-    separator()
-
     with open(encrypted_file_path, 'w', encoding='utf-8') as f:
         for rotated_encrypted_numbers in rotated_semantic_encryption_list:
             f.write(str(int(rotated_encrypted_numbers)))
@@ -154,16 +145,6 @@ def decrypt_message():
         key_enumeration_ordinal = int(ord(key[character_enumeration_number % len(key)]))
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
         decrypted_file_list.append(chr(divided_message_integer))
-
-    print('*** TEST RESULTS ***')
-    print()
-    print(time_bit, time_bit_obscurer)
-    print()
-    print(encrypted_numbers_list)
-    print(rotated_encrypted_file_list)
-    print(semantic_encrypted_file_list)
-    print(decrypted_file_list)
-    separator()
 
     print('KEY INPUT: ', key)
     separator()
