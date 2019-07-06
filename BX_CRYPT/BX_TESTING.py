@@ -63,7 +63,7 @@ def encrypt_message():
     added_length_integer = message_length_integer + key_length_integer
     multiplied_length_integer = message_length_integer * key_length_integer
     current_time = int(time.time())
-    time_bit = abs(current_time) % 100
+    time_bit = abs(current_time) % 1000
     time_bit_length = int(len(str(time_bit)))
 
     for character_enumeration_number, character in enumerate(message):
