@@ -1,5 +1,6 @@
 import base64
 import os
+import random
 import textwrap
 import time
 
@@ -282,6 +283,12 @@ def get_bytes_from_files(filename):
                     yield bts
             else:
                 break
+
+
+def random_number_with_obscurer_digits(number_of_digits):
+    number_range_start = 10 ** (number_of_digits - 1)
+    number_range_end = (10 ** number_of_digits) - 1
+    return random.randint(number_range_start, number_range_end)
 
 
 def rotate_rotor(character_set, rotations):
