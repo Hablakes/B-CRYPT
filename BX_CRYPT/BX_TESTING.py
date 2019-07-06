@@ -1,3 +1,4 @@
+import os
 import random
 import time
 
@@ -62,6 +63,7 @@ def encrypt_message():
     key_length_integer = int(len(key))
     added_length_integer = message_length_integer + key_length_integer
     multiplied_length_integer = message_length_integer * key_length_integer
+
     current_time = int(time.time())
     time_bit = abs(current_time) % 1000
     time_bit_length = int(len(str(time_bit)))
@@ -83,15 +85,33 @@ def encrypt_message():
     time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
 
     semantic_encryption_list.append(time_bit_obscurer)
-
     rotated_semantic_encryption_list = rotate_rotor(semantic_encryption_list, average_encrypted_number_length)
 
-    print(semantic_encryption_list)
-    print(rotated_semantic_encryption_list)
+    encrypted_file_path = os.path.expanduser(r'~/{0}').format('Encrypted Message.bc')
+
+    with open(encrypted_file_path, 'w', encoding='utf-8') as f:
+        for rotated_encrypted_numbers in rotated_semantic_encryption_list:
+            f.write(str(int(rotated_encrypted_numbers)))
+            f.write('\n')
+        f.close()
+
+    print(pyfiglet.figlet_format('FILE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
+
+    separator()
+
+    print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
 
 def decrypt_message():
-    pass
+    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
+
+    separator()
+
+    message = input('ENTER MESSAGE: ')
+    separator()
+    key = input('ENTER KEY: ')
+
+    separator()
 
 
 def random_number_with_obscurer_digits(number_of_digits):
