@@ -89,7 +89,6 @@ def encrypt_message():
 
         elif int(user_key_input) == 2:
             one_time_pad_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxk')
-
             key_list.append(random_string_with_one_time_pad_characters(message_length))
 
             with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
@@ -173,11 +172,14 @@ def decrypt_message():
         if int(user_key_input) == 1:
             key = input('ENTER KEY: ')
             key_list.append(key)
+            separator()
 
         elif int(user_key_input) == 2:
             key_file = tk_gui_file_selection_window()
-            for key_characters in key_file:
-                key_list.append(key_characters)
+
+            with open(key_file, 'r', encoding='utf-8') as f:
+                for key_characters in f:
+                    key_list.append(key_characters)
 
     except ValueError as e:
         print(e)
@@ -187,8 +189,6 @@ def decrypt_message():
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
-
-    separator()
 
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
@@ -213,7 +213,9 @@ def decrypt_message():
         decrypted_file_list.append(chr(divided_message_integer))
 
     print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+
     separator()
+
     print('DECRYPTED MESSAGE: ')
     print()
     print(textwrap.fill(''.join(decrypted_file_list)))
@@ -239,6 +241,8 @@ def encrypt_file():
         file_bytes_list.append(file_bytes)
 
     file_bytes_length = int(len(file_bytes_list))
+
+    separator()
 
     print('SYMMETRICAL KEY OPTIONS: ')
     print()
@@ -341,11 +345,14 @@ def decrypt_file():
         if int(user_key_input) == 1:
             key = input('ENTER KEY: ')
             key_list.append(key)
+            separator()
 
         elif int(user_key_input) == 2:
             key_file = tk_gui_file_selection_window()
-            for key_characters in key_file:
-                key_list.append(key_characters)
+
+            with open(key_file, 'r', encoding='utf-8') as f:
+                for key_characters in f:
+                    key_list.append(key_characters)
 
     except ValueError as e:
         print(e)
@@ -355,8 +362,6 @@ def decrypt_file():
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
-
-    separator()
 
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
