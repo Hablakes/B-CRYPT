@@ -47,10 +47,11 @@ def interface():
         elif int(user_input) == 5:
             exit()
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
 
 def encrypt_message():
@@ -97,10 +98,11 @@ def encrypt_message():
 
             print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
     separator()
 
@@ -181,10 +183,11 @@ def decrypt_message():
                 for key_characters in f:
                     key_list.append(key_characters)
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
@@ -270,10 +273,11 @@ def encrypt_file():
 
             print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
     separator()
 
@@ -354,10 +358,11 @@ def decrypt_file():
                 for key_characters in f:
                     key_list.append(key_characters)
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
     with open(user_file, encoding='utf-8') as f:
         for encrypted_numbers in f:
@@ -387,8 +392,14 @@ def decrypt_file():
 
     decrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_original_filename)
 
-    with open(decrypted_file_path, 'wb') as f:
-        f.write(bytearray(decrypted_file_bytes_list))
+    try:
+        with open(decrypted_file_path, 'wb') as f:
+            f.write(bytearray(decrypted_file_bytes_list))
+
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
+        print("KEY ERROR: ", e)
+        print()
+        return
 
     print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
 
@@ -416,10 +427,11 @@ def get_bytes_from_files(filename):
                 else:
                     break
 
-    except ValueError as e:
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
         separator()
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
 
 def random_string_with_one_time_pad_characters(number_of_characters):
