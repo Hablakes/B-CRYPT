@@ -146,9 +146,11 @@ def decrypt_message():
         divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
         decrypted_file_list.append(chr(divided_message_integer))
 
+    print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+    separator()
     print('DECRYPTED MESSAGE: ')
     print()
-    print(''.join(decrypted_file_list))
+    print(textwrap.fill(''.join(decrypted_file_list)))
 
 
 def random_number_with_obscurer_digits(number_of_digits):
