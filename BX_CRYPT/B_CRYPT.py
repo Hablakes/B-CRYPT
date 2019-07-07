@@ -1,9 +1,9 @@
 def interface():
     print()
     print('-' * 100)
-    print("___     ____ ____ _   _ ___  ___ ____    ___ ____ ____ _ ")
-    print("|__] __ |    |__/  \_/  |__]  |  |  | __  |  |  | |  | | ")
-    print("|__]    |___ |  \   |   |     |  |__|     |  |__| |__| |___")
+    print("____ ____ _   _ ___  ___ ____    ___ ____ ____ _ ")
+    print("|    |__/  \_/  |__]  |  |  | __  |  |  | |  | | ")
+    print("|___ |  \   |   |     |  |__|     |  |__| |__| |___")
     print()
     print('-' * 100)
     print()
@@ -11,7 +11,7 @@ def interface():
     print()
     print('-' * 100)
     print()
-    bct_input = input("ENTER OPTION #")
+    bct_input = input("ENTER OPTION #: ")
     print()
     print('-' * 100)
     print()
@@ -26,9 +26,9 @@ def interface():
 def input_message_and_encrypt():
     encrypted_msg = []
 
-    message = input("ENTER MESSAGE TO ENCRYPT:")
+    message = input("ENTER MESSAGE TO ENCRYPT: ")
     print()
-    key = input("ENTER KEY:")
+    key = input("ENTER KEY: ")
     print()
     print('-' * 100)
     print()
@@ -38,30 +38,33 @@ def input_message_and_encrypt():
         key_characters = ord(key[enumeration_number % len(key)])
         multiplied_msg_key_integer = (message_characters * 2) * key_characters
 
+        print()
         print("ENUMERATION #: ", enumeration_number)
-        print("CHARACTER: ", characters, "CHARACTER ORDER #: ", message_characters)
-        print("KEY CHARACTERS:", key_characters)
+        print("CHARACTER: ", characters, "- ", "MESSAGE-CHARACTER ORDER #: ", message_characters)
+        print("KEY CHARACTERS: ", chr(key_characters), "- ", "KEY-CHARACTER ORDER #: ", key_characters)
+        print()
+        print("MULTIPLIED MESSAGE-CHARACTER-ORDER * KEY-CHARACTER-ORDER #: ", multiplied_msg_key_integer)
+        print()
         print('-' * 100)
-        print("MULTIPLIED MESSAGE / KEY INTEGER:", multiplied_msg_key_integer)
 
         encrypted_msg.append(chr(multiplied_msg_key_integer))
 
     print()
-    print("MESSAGE INPUT:", message)
     print()
-    print("KEY INPUT:", key)
     print()
-    print('-' * 100)
+    print("MESSAGE INPUT: ", message)
     print()
-    print("ENCRYPTED MESSAGE:", ''.join(encrypted_msg))
+    print("KEY INPUT: ", key)
+    print()
+    print("ENCRYPTED MESSAGE: ", ''.join(encrypted_msg))
 
 
 def decrypt_message():
     decrypted_msg = []
 
-    message = input("ENTER MESSAGE TO DECRYPT:")
+    message = input("ENTER MESSAGE TO DECRYPT: ")
     print()
-    key = input("ENTER KEY:")
+    key = input("ENTER KEY: ")
     print()
     print('-' * 100)
     print()
@@ -74,14 +77,15 @@ def decrypt_message():
         decrypted_msg.append(chr(multiplied_msg_key_integer))
 
     for enumeration_number, encrypted_chars in enumerate(message):
-        print("ENCRYPTED MESSAGE CHARACTER #'s:", enumeration_number, "- ", ord(encrypted_chars))
+        print("ENCRYPTED MESSAGE CHARACTER #'s: ", enumeration_number, "- ", encrypted_chars, "- ",
+              ord(encrypted_chars))
 
     print()
-    print("KEY INPUT:", key)
+    print("KEY INPUT: ", key)
     print()
     print('-' * 100)
     print()
-    print("DECRYPTED MESSAGE:", ''.join(decrypted_msg))
+    print("DECRYPTED MESSAGE: ", ''.join(decrypted_msg))
 
 
 while True:
