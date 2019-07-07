@@ -107,26 +107,27 @@ def encrypt_message():
     separator()
 
     current_time = int(time.time())
+    multiplier_bit = int(abs(current_time) % 10)
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
 
     for character_enumeration_number, character in enumerate(message_list):
         message_character_ordinal = ord(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
+        multiplied_message_integer = int((message_character_ordinal * key_enumeration_ordinal) * multiplier_bit)
         encrypted_message_list.append(multiplied_message_integer)
 
     for multiplied_numbers in encrypted_message_list:
-        pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
+        pseudo_random_multiplied_numbers = int(multiplied_numbers + (time_bit * multiplier_bit))
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
     encrypted_number_lengths = [len(str(x)) for x in semantic_encryption_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
-    time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
+    obscurer_bits = int(str(time_bit) + str(multiplier_bit) + str(time_bit_obscurer_random_number))
 
-    semantic_encryption_list.append(time_bit_obscurer)
+    semantic_encryption_list.append(obscurer_bits)
     rotated_semantic_encryption_list = rotate_list_as_rotor(semantic_encryption_list, average_encrypted_number_length)
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
 
@@ -202,17 +203,18 @@ def decrypt_message():
     for characters in rotated_encrypted_file:
         rotated_encrypted_file_list.append(characters)
 
-    time_bit_obscurer = rotated_encrypted_file_list.pop()
-    time_bit = int(str(time_bit_obscurer)[:3])
+    obscurer_bits = rotated_encrypted_file_list.pop()
+    time_bit = int(str(obscurer_bits)[:3])
+    multiplier_bit = int(str(obscurer_bits)[3])
 
     for multiplied_numbers in rotated_encrypted_file_list:
-        pseudo_random_multiplied_numbers = multiplied_numbers - time_bit
+        pseudo_random_multiplied_numbers = int(multiplied_numbers - (time_bit * multiplier_bit))
         semantic_encrypted_file_list.append(pseudo_random_multiplied_numbers)
 
     for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
         message_character_integer = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
+        divided_message_integer = int((message_character_integer // key_enumeration_ordinal) // multiplier_bit)
         decrypted_file_list.append(chr(divided_message_integer))
 
     print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
@@ -282,26 +284,27 @@ def encrypt_file():
     separator()
 
     current_time = int(time.time())
+    multiplier_bit = int(abs(current_time) % 10)
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
 
     for character_enumeration_number, character in enumerate(file_bytes_list):
         message_character_ordinal = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        multiplied_message_integer = int(message_character_ordinal * key_enumeration_ordinal)
+        multiplied_message_integer = int((message_character_ordinal * key_enumeration_ordinal) * multiplier_bit)
         encrypted_file_bytes_list.append(multiplied_message_integer)
 
     for multiplied_numbers in encrypted_file_bytes_list:
-        pseudo_random_multiplied_numbers = multiplied_numbers + time_bit
+        pseudo_random_multiplied_numbers = int(multiplied_numbers + (time_bit * multiplier_bit))
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
     encrypted_number_lengths = [len(str(x)) for x in semantic_encryption_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
-    time_bit_obscurer = int(str(time_bit) + str(time_bit_obscurer_random_number))
+    obscurer_bits = int(str(time_bit) + str(multiplier_bit) + str(time_bit_obscurer_random_number))
 
-    semantic_encryption_list.append(time_bit_obscurer)
+    semantic_encryption_list.append(obscurer_bits)
     rotated_semantic_encryption_list = rotate_list_as_rotor(semantic_encryption_list, average_encrypted_number_length)
     encrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_filename) + '.bxc'
 
@@ -377,17 +380,18 @@ def decrypt_file():
     for characters in rotated_encrypted_file:
         rotated_encrypted_file_bytes_list.append(characters)
 
-    time_bit_obscurer = rotated_encrypted_file_bytes_list.pop()
-    time_bit = int(str(time_bit_obscurer)[:3])
+    obscurer_bits = rotated_encrypted_file_bytes_list.pop()
+    time_bit = int(str(obscurer_bits)[:3])
+    multiplier_bit = int(str(obscurer_bits)[3])
 
     for multiplied_numbers in rotated_encrypted_file_bytes_list:
-        pseudo_random_multiplied_numbers = multiplied_numbers - time_bit
+        pseudo_random_multiplied_numbers = int(multiplied_numbers - (time_bit * multiplier_bit))
         semantic_encrypted_file_bytes_list.append(pseudo_random_multiplied_numbers)
 
     for character_enumeration_number, character in enumerate(semantic_encrypted_file_bytes_list):
         message_character_integer = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        divided_message_integer = int(message_character_integer // key_enumeration_ordinal)
+        divided_message_integer = int((message_character_integer // key_enumeration_ordinal) // multiplier_bit)
         decrypted_file_bytes_list.append(divided_message_integer)
 
     decrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_original_filename)
