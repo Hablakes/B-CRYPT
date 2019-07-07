@@ -42,10 +42,11 @@ def input_message_and_encrypt():
         print()
         print("ENUMERATION #: ", enumeration_number)
         print()
-        print("MSG CHARACTER: ", characters, "- ", "MESSAGE-CHARACTER ORDER #: ", message_characters)
-        print("KEY CHARACTER: ", chr(key_characters), "- ", "KEY-CHARACTER ORDER #: ", key_characters)
+        print("MSG CHARACTER: ", characters, " - ", "MESSAGE-CHARACTER ORDER #: ", message_characters)
+        print("KEY CHARACTER: ", chr(key_characters), " - ", "KEY-CHARACTER ORDER #: ", key_characters)
         print()
-        print("(MESSAGE-CHARACTER-ORDER * 2) * KEY-CHARACTER-ORDER #: ", multiplied_msg_key_integer)
+        print("(MESSAGE-CHARACTER-ORDER * 2) * KEY-CHARACTER-ORDER #: ", chr(multiplied_msg_key_integer), " - ",
+              multiplied_msg_key_integer)
         print()
         print('-' * 100)
 
@@ -79,10 +80,11 @@ def decrypt_message():
         print()
         print("ENUMERATION #: ", enumeration_number)
         print()
-        print("MSG CHARACTER: ", encrypted_letters, "- ", "MESSAGE-CHARACTER ORDER #: ", message_characters)
-        print("KEY CHARACTER: ", chr(key_characters), "- ", "KEY-CHARACTER ORDER #: ", key_characters)
+        print("MSG CHARACTER: ", encrypted_letters, " - ", "MESSAGE-CHARACTER ORDER #: ", message_characters)
+        print("KEY CHARACTER: ", chr(key_characters), " - ", "KEY-CHARACTER ORDER #: ", key_characters)
         print()
-        print("(MESSAGE-CHARACTER-ORDER / 2) / KEY-CHARACTER-ORDER #: ", divided_msg_key_integer)
+        print("(MESSAGE-CHARACTER-ORDER / 2) / KEY-CHARACTER-ORDER #: ", chr(divided_msg_key_integer), " - ",
+              divided_msg_key_integer)
         print()
         print('-' * 100)
 
