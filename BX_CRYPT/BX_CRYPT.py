@@ -107,9 +107,11 @@ def encrypt_message():
     separator()
 
     current_time = int(time.time())
-    multiplier_bit = int(abs(current_time) % 10)
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
+    multiplier_bit = int(abs(current_time) % 10)
+    if multiplier_bit == 0:
+        multiplier_bit = int(multiplier_bit + 1)
 
     for character_enumeration_number, character in enumerate(message_list):
         message_character_ordinal = ord(character)
@@ -284,9 +286,11 @@ def encrypt_file():
     separator()
 
     current_time = int(time.time())
-    multiplier_bit = int(abs(current_time) % 10)
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
+    multiplier_bit = int(abs(current_time) % 10)
+    if multiplier_bit == 0:
+        multiplier_bit = int(multiplier_bit + 1)
 
     for character_enumeration_number, character in enumerate(file_bytes_list):
         message_character_ordinal = int(character)
