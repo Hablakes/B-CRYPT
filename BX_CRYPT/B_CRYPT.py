@@ -1,19 +1,19 @@
 def interface():
     print()
-    print("-" * 80)
+    print('-' * 100)
     print("___     ____ ____ _   _ ___  ___ ____    ___ ____ ____ _ ")
     print("|__] __ |    |__/  \_/  |__]  |  |  | __  |  |  | |  | | ")
     print("|__]    |___ |  \   |   |     |  |__|     |  |__| |__| |___")
     print()
-    print("-" * 80)
+    print('-' * 100)
     print()
     print("1) ENCRYPT A MESSAGE          2) DECRYPT A MESSAGE          3) EXIT")
     print()
-    print("-" * 80)
+    print('-' * 100)
     print()
     bct_input = input("ENTER OPTION #")
     print()
-    print("-" * 80)
+    print('-' * 100)
     print()
     if int(bct_input) == 1:
         input_message_and_encrypt()
@@ -26,29 +26,32 @@ def interface():
 def input_message_and_encrypt():
     encrypted_msg = []
 
-    in_msg = input("ENTER MESSAGE TO ENCRYPT:")
+    message = input("ENTER MESSAGE TO ENCRYPT:")
     print()
-    in_key = input("ENTER KEY:")
-    key = in_key
+    key = input("ENTER KEY:")
     print()
-    print('-' * 80)
+    print('-' * 100)
     print()
 
-    for enum, chars in enumerate(in_msg):
-        msg_chars = ord(chars)
-        key_chars = ord(key[enum % len(key)])
-        randomize_alg = (msg_chars * 2) * key_chars
-        print("CHARACTER: ", chars, ":", "ENUMERATION #: ", enum, ",", "CHARACTER ORDER #: ", msg_chars)
-        print("KEY CHARACTERS:", key_chars)
-        print("RA:", randomize_alg)
-        encrypted_msg.append(chr(randomize_alg))
+    for enumeration_number, characters in enumerate(message):
+        message_characters = ord(characters)
+        key_characters = ord(key[enumeration_number % len(key)])
+        multiplied_msg_key_integer = (message_characters * 2) * key_characters
+
+        print("ENUMERATION #: ", enumeration_number)
+        print("CHARACTER: ", characters, "CHARACTER ORDER #: ", message_characters)
+        print("KEY CHARACTERS:", key_characters)
+        print('-' * 100)
+        print("MULTIPLIED MESSAGE / KEY INTEGER:", multiplied_msg_key_integer)
+
+        encrypted_msg.append(chr(multiplied_msg_key_integer))
 
     print()
-    print("MESSAGE INPUT:", in_msg)
+    print("MESSAGE INPUT:", message)
     print()
     print("KEY INPUT:", key)
     print()
-    print('-' * 80)
+    print('-' * 100)
     print()
     print("ENCRYPTED MESSAGE:", ''.join(encrypted_msg))
 
@@ -56,26 +59,27 @@ def input_message_and_encrypt():
 def decrypt_message():
     decrypted_msg = []
 
-    in_msg = input("ENTER MESSAGE TO DECRYPT:")
+    message = input("ENTER MESSAGE TO DECRYPT:")
     print()
-    in_key = input("ENTER KEY:")
-    key = in_key
+    key = input("ENTER KEY:")
     print()
-    print('-' * 80)
+    print('-' * 100)
     print()
 
-    for enum, encrypted_letters in enumerate(in_msg):
-        msg_chars = ord(encrypted_letters)
-        key_chars = ord(key[enum % len(key)])
-        randomize_alg = int((msg_chars / 2) / key_chars)
-        decrypted_msg.append(chr(randomize_alg))
+    for enumeration_number, encrypted_letters in enumerate(message):
+        message_characters = ord(encrypted_letters)
+        key_characters = ord(key[enumeration_number % len(key)])
+        multiplied_msg_key_integer = int((message_characters / 2) / key_characters)
 
-    for enum, encrypted_chars in enumerate(in_msg):
-        print("ENCRYPTED MESSAGE CHARACTER #'s:", enum, "- ", ord(encrypted_chars))
+        decrypted_msg.append(chr(multiplied_msg_key_integer))
+
+    for enumeration_number, encrypted_chars in enumerate(message):
+        print("ENCRYPTED MESSAGE CHARACTER #'s:", enumeration_number, "- ", ord(encrypted_chars))
+
     print()
     print("KEY INPUT:", key)
     print()
-    print('-' * 80)
+    print('-' * 100)
     print()
     print("DECRYPTED MESSAGE:", ''.join(decrypted_msg))
 
