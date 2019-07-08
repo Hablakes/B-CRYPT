@@ -444,7 +444,7 @@ def get_bytes_from_files(filename):
 
 def random_string_with_one_time_pad_characters(number_of_characters):
     one_time_pad_characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(random.choice(one_time_pad_characters) for x in range(number_of_characters))
+    return ''.join(random.choice(one_time_pad_characters) for _ in range(number_of_characters))
 
 
 def random_number_with_obscurer_digits(number_of_digits):
