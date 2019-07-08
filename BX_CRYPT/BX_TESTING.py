@@ -1,24 +1,21 @@
-import os
 import random
 import string
-import textwrap
-import time
 
-import pyfiglet
 import tkinter
 import tkinter.filedialog
 
 
-def encrypt_file():
+def get_bytes_from_files(filename):
+    try:
+        with open(filename, 'rb') as f:
+            for byte in f.read():
+                yield byte
 
-    current_time = int(time.time())
-    time_bit = int(abs(current_time) % 1000)
-    time_bit_length = int(len(str(time_bit)))
-    multiplier_bit = int(abs(current_time) % 10)
-    if multiplier_bit == 0:
-        multiplier_bit = int(multiplier_bit + 1)
-
-    print(multiplier_bit)
+    except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
+        print(e)
+        separator()
+        print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
+        return
 
 
 def random_string_with_one_time_pad_characters(number_of_characters):
@@ -50,4 +47,10 @@ def tk_gui_file_selection_window():
     return selected_file
 
 
-encrypt_file()
+def random_number_for_multiplier_bit():
+    multiplier_digit = random.randint(1, 9)
+    return int((multiplier_digit % 9) + 1)
+
+
+for items in get_bytes_from_files(r'C:\Users\botoole\PycharmProjects\B_TESTING\BX_CRYPT\README.md'):
+    print(items)

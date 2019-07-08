@@ -109,9 +109,7 @@ def encrypt_message():
     current_time = int(time.time())
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
-    multiplier_bit = int(abs(current_time) % 10)
-    if multiplier_bit == 0:
-        multiplier_bit = int(multiplier_bit + 1)
+    multiplier_bit = int(random_number_for_multiplier_bit())
 
     for character_enumeration_number, character in enumerate(message_list):
         message_character_ordinal = ord(character)
@@ -249,8 +247,6 @@ def encrypt_file():
 
     file_bytes_length = int(len(file_bytes_list))
 
-    separator()
-
     print('SYMMETRICAL KEY OPTIONS: ')
     print()
     print('1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
@@ -288,9 +284,7 @@ def encrypt_file():
     current_time = int(time.time())
     time_bit = int(abs(current_time) % 1000)
     time_bit_length = int(len(str(time_bit)))
-    multiplier_bit = int(abs(current_time) % 10)
-    if multiplier_bit == 0:
-        multiplier_bit = int(multiplier_bit + 1)
+    multiplier_bit = int(random_number_for_multiplier_bit())
 
     for character_enumeration_number, character in enumerate(file_bytes_list):
         message_character_ordinal = int(character)
@@ -417,23 +411,10 @@ def decrypt_file():
 
 
 def get_bytes_from_files(filename):
-    print('ENTER BYTE AMOUNT (BLOCK SIZE) TO SCAN WITH: ')
-    print()
-    print('DEFAULT BLOCK SIZE IS 1024 (1KB).  IF UNSURE, ENTER: "1024"')
-    print()
-
     try:
-        input_bytes_amount = input('ENTER BYTE AMOUNT: ')
         with open(filename, 'rb') as f:
-            while True:
-                bytes_amount = f.read(int(input_bytes_amount))
-
-                if bytes_amount:
-
-                    for bts in bytes_amount:
-                        yield bts
-                else:
-                    break
+            for byte in f.read():
+                yield byte
 
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e)
@@ -442,15 +423,20 @@ def get_bytes_from_files(filename):
         return
 
 
-def random_string_with_one_time_pad_characters(number_of_characters):
-    one_time_pad_characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(random.choice(one_time_pad_characters) for _ in range(number_of_characters))
+def random_number_for_multiplier_bit():
+    multiplier_digit = random.randint(1, 9)
+    return int((multiplier_digit % 9) + 1)
 
 
 def random_number_with_obscurer_digits(number_of_digits):
     number_range_start = 10 ** (number_of_digits - 1)
     number_range_end = (10 ** number_of_digits) - 1
     return random.randint(number_range_start, number_range_end)
+
+
+def random_string_with_one_time_pad_characters(number_of_characters):
+    one_time_pad_characters = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(random.choice(one_time_pad_characters) for _ in range(number_of_characters))
 
 
 def rotate_list_as_rotor(character_set, rotations):
