@@ -103,7 +103,21 @@ def encrypt_message_ui():
 
     separator()
 
-    encrypt_message(key_list, message_list)
+    rotated_semantic_encryption_list = encrypt_message(key_list, message_list)
+
+    encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
+
+    with open(encrypted_file_path, 'w', encoding='utf-8') as f:
+        for rotated_encrypted_numbers in rotated_semantic_encryption_list:
+            f.write(str(int(rotated_encrypted_numbers)))
+            f.write('\n')
+        f.close()
+
+    print(pyfiglet.figlet_format('MESSAGE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
+
+    separator()
+
+    print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
 
 def encrypt_message(key_list, message_list):
@@ -133,19 +147,8 @@ def encrypt_message(key_list, message_list):
 
     semantic_encryption_list.append(obscurer_bits)
     rotated_semantic_encryption_list = rotate_list_as_rotor(semantic_encryption_list, average_encrypted_number_length)
-    encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
 
-    with open(encrypted_file_path, 'w', encoding='utf-8') as f:
-        for rotated_encrypted_numbers in rotated_semantic_encryption_list:
-            f.write(str(int(rotated_encrypted_numbers)))
-            f.write('\n')
-        f.close()
-
-    print(pyfiglet.figlet_format('MESSAGE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
-
-    separator()
-
-    print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
+    return rotated_semantic_encryption_list
 
 
 def decrypt_message_ui():
@@ -190,7 +193,19 @@ def decrypt_message_ui():
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
 
-    decrypt_message(key_list, user_file, user_file_original_filename)
+    decrypted_file_list = decrypt_message(key_list, user_file, user_file_original_filename)
+
+    print('MESSAGE FILE SELECTED: ', user_file_original_filename)
+
+    separator()
+
+    print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+
+    separator()
+
+    print('DECRYPTED MESSAGE: ')
+    print()
+    print(textwrap.fill(''.join(decrypted_file_list)))
 
 
 def decrypt_message(key_list, user_file, user_file_original_filename):
@@ -226,17 +241,7 @@ def decrypt_message(key_list, user_file, user_file_original_filename):
         divided_message_integer = int((message_character_integer // key_enumeration_ordinal) // multiplier_bit)
         decrypted_file_list.append(chr(divided_message_integer))
 
-    print('MESSAGE FILE SELECTED: ', user_file_original_filename)
-
-    separator()
-
-    print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
-
-    separator()
-
-    print('DECRYPTED MESSAGE: ')
-    print()
-    print(textwrap.fill(''.join(decrypted_file_list)))
+    return decrypted_file_list
 
 
 def get_bytes_from_files(filename):
