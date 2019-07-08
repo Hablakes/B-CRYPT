@@ -57,6 +57,7 @@ def interface():
 def encrypt_message_ui():
     message_list = []
     key_list = []
+
     print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
 
     separator()
@@ -103,7 +104,7 @@ def encrypt_message_ui():
 
     separator()
 
-    rotated_semantic_encryption_list = encrypt_message(key_list, message_list)
+    rotated_semantic_encryption_list = encrypt_function(key_list, message_list)
 
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
 
@@ -120,7 +121,7 @@ def encrypt_message_ui():
     print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
 
-def encrypt_message(key_list, message_list):
+def encrypt_function(key_list, message_list):
     encrypted_message_list = []
     semantic_encryption_list = []
 
@@ -193,7 +194,7 @@ def decrypt_message_ui():
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
 
-    decrypted_file_list = decrypt_message(key_list, user_file, user_file_original_filename)
+    decrypted_file_list = decrypt_function(key_list, user_file, user_file_original_filename)
 
     print('MESSAGE FILE SELECTED: ', user_file_original_filename)
 
@@ -208,7 +209,7 @@ def decrypt_message_ui():
     print(textwrap.fill(''.join(decrypted_file_list)))
 
 
-def decrypt_message(key_list, user_file, user_file_original_filename):
+def decrypt_function(key_list, user_file, user_file_original_filename):
     encrypted_numbers_list = []
     rotated_encrypted_file_list = []
     semantic_encrypted_file_list = []
