@@ -36,13 +36,13 @@ def interface():
 
     try:
         if int(user_input) == 1:
-            encrypt_message_ui(interface_selection=1)
+            encrypt_ui(interface_selection=1)
         elif int(user_input) == 2:
-            decrypt_message_ui(interface_selection=1)
+            decrypt_ui(interface_selection=1)
         elif int(user_input) == 3:
-            encrypt_message_ui(interface_selection=2)
+            encrypt_ui(interface_selection=2)
         elif int(user_input) == 4:
-            decrypt_message_ui(interface_selection=2)
+            decrypt_ui(interface_selection=2)
         elif int(user_input) == 5:
             exit()
 
@@ -53,7 +53,7 @@ def interface():
         return
 
 
-def encrypt_message_ui(interface_selection):
+def encrypt_ui(interface_selection):
     file_bytes_list = []
     key_list = []
     user_file_filename_list = []
@@ -195,7 +195,7 @@ def encrypt_function(key_list, message_list):
     return rotated_semantic_encryption_list
 
 
-def decrypt_message_ui(interface_selection):
+def decrypt_ui(interface_selection):
     key_list = []
 
     print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
