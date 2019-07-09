@@ -37,13 +37,13 @@ def interface():
 
     try:
         if int(user_input) == 1:
-            encrypt_message_ui()
+            encrypt_message_ui(interface_selection=1)
         elif int(user_input) == 2:
-            decrypt_message_ui()
+            decrypt_message_ui(interface_selection=1)
         elif int(user_input) == 3:
-            pass
+            encrypt_message_ui(interface_selection=2)
         elif int(user_input) == 4:
-            pass
+            decrypt_message_ui(interface_selection=2)
         elif int(user_input) == 5:
             exit()
 
@@ -54,20 +54,35 @@ def interface():
         return
 
 
-def encrypt_message_ui():
-    message_list = []
+def encrypt_message_ui(interface_selection):
+    file_bytes_list = []
     key_list = []
 
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
+    if int(interface_selection) == 1:
 
-    separator()
+        print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
 
-    message = input('ENTER MESSAGE: ')
+        separator()
 
-    for items in message:
-        message_list.append(items)
+        message = input('ENTER MESSAGE: ')
 
-    message_length = int(len(message_list))
+        for message_bytes in bytes(message.encode('utf-8')):
+            file_bytes_list.append(message_bytes)
+
+    elif int(interface_selection) == 2:
+
+        print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT: ', font='cybermedium'))
+
+        separator()
+
+        user_file = tk_gui_file_selection_window()
+        user_file_filename = user_file.rsplit('/', 1)[-1]
+        print('FILE SELECTED: ',  user_file_filename)
+
+        for file_bytes in get_bytes_from_files(user_file):
+            file_bytes_list.append(file_bytes)
+
+    file_bytes_length = int(len(file_bytes_list))
 
     separator()
 
@@ -88,7 +103,7 @@ def encrypt_message_ui():
 
         elif int(key) == 2:
             one_time_pad_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxk')
-            key_list.append(random_string_with_one_time_pad_characters(message_length))
+            key_list.append(random_string_with_one_time_pad_characters(file_bytes_length))
 
             with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
                 for key_characters in key_list:
@@ -104,7 +119,7 @@ def encrypt_message_ui():
 
     separator()
 
-    rotated_semantic_encryption_list = encrypt_function(key_list, message_list)
+    rotated_semantic_encryption_list = encrypt_function(key_list, file_bytes_list)
 
     encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
 
@@ -131,7 +146,7 @@ def encrypt_function(key_list, message_list):
     multiplier_bit = int(random_number_for_multiplier_bit())
 
     for character_enumeration_number, character in enumerate(message_list):
-        message_character_ordinal = ord(character)
+        message_character_ordinal = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         multiplied_message_integer = int((message_character_ordinal * key_enumeration_ordinal) * multiplier_bit)
         encrypted_message_list.append(multiplied_message_integer)
@@ -152,10 +167,10 @@ def encrypt_function(key_list, message_list):
     return rotated_semantic_encryption_list
 
 
-def decrypt_message_ui():
+def decrypt_message_ui(interface_selection):
     key_list = []
 
-    print(pyfiglet.figlet_format('ENTER MESSAGE TO DECRYPT: ', font='cybermedium'))
+    print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
 
     separator()
 
@@ -194,19 +209,46 @@ def decrypt_message_ui():
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
 
-    decrypted_file_list = decrypt_function(key_list, user_file, user_file_original_filename)
+    decrypted_file_bytes_list = decrypt_function(key_list, user_file, user_file_original_filename)
 
-    print('MESSAGE FILE SELECTED: ', user_file_original_filename)
+    if int(interface_selection) == 1:
 
-    separator()
+        decrypted_message_list = []
 
-    print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+        print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
 
-    separator()
+        separator()
 
-    print('DECRYPTED MESSAGE: ')
-    print()
-    print(textwrap.fill(''.join(decrypted_file_list)))
+        print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+
+        separator()
+
+        print('DECRYPTED MESSAGE: ')
+        print()
+
+        for decrypted_numbers in decrypted_file_bytes_list:
+            decrypted_message_list.append(chr(decrypted_numbers))
+
+        print(''.join(decrypted_message_list))
+
+    elif int(interface_selection) == 2:
+
+        decrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_original_filename)
+
+        try:
+            with open(decrypted_file_path, 'wb') as f:
+                f.write(bytearray(decrypted_file_bytes_list))
+
+        except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
+            print("KEY ERROR: ", e)
+            print()
+            return
+
+        print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+
+        separator()
+
+        print('DECRYPTED FILE LOCATION: ' + os.path.abspath(decrypted_file_path))
 
 
 def decrypt_function(key_list, user_file, user_file_original_filename):
@@ -240,7 +282,7 @@ def decrypt_function(key_list, user_file, user_file_original_filename):
         message_character_integer = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
         divided_message_integer = int((message_character_integer // key_enumeration_ordinal) // multiplier_bit)
-        decrypted_file_list.append(chr(divided_message_integer))
+        decrypted_file_list.append(divided_message_integer)
 
     return decrypted_file_list
 
