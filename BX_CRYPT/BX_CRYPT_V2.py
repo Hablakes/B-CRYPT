@@ -238,7 +238,7 @@ def decrypt_message_ui(interface_selection):
         print('INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
 
-    decrypted_file_bytes_list = decrypt_function(key_list, user_file, user_file_original_filename)
+    decrypted_file_bytes_list = decrypt_function(key_list, user_file)
 
     try:
 
@@ -288,7 +288,7 @@ def decrypt_message_ui(interface_selection):
         return
 
 
-def decrypt_function(key_list, user_file, user_file_original_filename):
+def decrypt_function(key_list, user_file):
     encrypted_numbers_list = []
     rotated_encrypted_file_list = []
     semantic_encrypted_file_list = []
