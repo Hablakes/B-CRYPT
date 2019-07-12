@@ -316,11 +316,11 @@ def decrypt_function(key_list, user_file):
         pseudo_random_multiplied_numbers = int(multiplied_numbers - (time_bit * multiplier_bit))
         semantic_encrypted_file_list.append(pseudo_random_multiplied_numbers)
 
-    for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
+    for enumeration_number, character in enumerate(semantic_encrypted_file_list):
         file_byte_character_integer = int(character)
-        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        divided_message_integer = int((file_byte_character_integer // key_enumeration_ordinal) // multiplier_bit)
-        decrypted_file_list.append(divided_message_integer)
+        key_enumeration_ordinal = int(ord(''.join(key_list)[enumeration_number % len(''.join(key_list))]))
+        divided_file_byte_integer = int((file_byte_character_integer // key_enumeration_ordinal) // multiplier_bit)
+        decrypted_file_list.append(divided_file_byte_integer)
 
     return decrypted_file_list
 
