@@ -81,7 +81,7 @@ def encrypt_ui(interface_selection):
             user_file_filename = user_file.rsplit('/', 1)[-1]
             user_file_filename_list.append(user_file_filename)
 
-            print('FILE SELECTED: ',  user_file_filename)
+            print('FILE SELECTED: ', user_file_filename)
 
             for file_bytes in get_bytes_from_files(user_file):
                 file_bytes_list.append(file_bytes)
@@ -164,8 +164,8 @@ def encrypt_ui(interface_selection):
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
 
-def encrypt_function(key_list, message_list):
-    encrypted_message_list = []
+def encrypt_function(key_list, file_byte_numbers_list):
+    encrypted_numbers_list = []
     semantic_encryption_list = []
 
     current_time = int(time.time())
@@ -173,13 +173,14 @@ def encrypt_function(key_list, message_list):
     time_bit_length = int(len(str(time_bit)))
     multiplier_bit = int(random_number_for_multiplier_bit())
 
-    for character_enumeration_number, character in enumerate(message_list):
-        message_character_ordinal = int(character)
-        key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        multiplied_message_integer = int((message_character_ordinal * key_enumeration_ordinal) * multiplier_bit)
-        encrypted_message_list.append(multiplied_message_integer)
+    for enumeration_number, file_byte in enumerate(file_byte_numbers_list):
+        file_byte_character_ordinal = int(file_byte)
+        key_enumeration_ordinal = int(ord(''.join(key_list)[enumeration_number % len(''.join(key_list))]))
+        multiplied_file_bytes_number_integer = int(
+            (file_byte_character_ordinal * key_enumeration_ordinal) * multiplier_bit)
+        encrypted_numbers_list.append(multiplied_file_bytes_number_integer)
 
-    for multiplied_numbers in encrypted_message_list:
+    for multiplied_numbers in encrypted_numbers_list:
         pseudo_random_multiplied_numbers = int(multiplied_numbers + (time_bit * multiplier_bit))
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
 
@@ -304,8 +305,8 @@ def decrypt_function(key_list, user_file):
 
     rotated_encrypted_file = rotate_list_as_rotor(encrypted_numbers_list, inverse_average_encrypted_number_length)
 
-    for characters in rotated_encrypted_file:
-        rotated_encrypted_file_list.append(characters)
+    for file_byte_numbers in rotated_encrypted_file:
+        rotated_encrypted_file_list.append(file_byte_numbers)
 
     obscurer_bits = rotated_encrypted_file_list.pop()
     time_bit = int(str(obscurer_bits)[:3])
@@ -316,9 +317,9 @@ def decrypt_function(key_list, user_file):
         semantic_encrypted_file_list.append(pseudo_random_multiplied_numbers)
 
     for character_enumeration_number, character in enumerate(semantic_encrypted_file_list):
-        message_character_integer = int(character)
+        file_byte_character_integer = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[character_enumeration_number % len(''.join(key_list))]))
-        divided_message_integer = int((message_character_integer // key_enumeration_ordinal) // multiplier_bit)
+        divided_message_integer = int((file_byte_character_integer // key_enumeration_ordinal) // multiplier_bit)
         decrypted_file_list.append(divided_message_integer)
 
     return decrypted_file_list
