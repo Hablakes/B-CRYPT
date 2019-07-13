@@ -27,11 +27,9 @@ def interface():
     print('3) ENCRYPT A FILE            4) DECRYPT A FILE')
     print()
     print('5) EXIT')
-
     separator()
 
     user_input = input('ENTER OPTION #: ')
-
     separator()
 
     try:
@@ -59,11 +57,8 @@ def encrypt_ui(interface_selection):
     user_file_filename_list = []
 
     try:
-
         if int(interface_selection) == 1:
-
             print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
-
             separator()
 
             message = input('ENTER MESSAGE: ')
@@ -72,9 +67,7 @@ def encrypt_ui(interface_selection):
                 file_bytes_list.append(message_bytes)
 
         elif int(interface_selection) == 2:
-
             print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT: ', font='cybermedium'))
-
             separator()
 
             user_file = tk_gui_file_selection_window()
@@ -93,17 +86,14 @@ def encrypt_ui(interface_selection):
         return
 
     file_bytes_length = int(len(file_bytes_list))
-
     separator()
 
     print('SYMMETRICAL KEY OPTIONS: ')
     print()
     print('1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
-
     separator()
 
     key = input('ENTER OPTION #: ')
-
     separator()
 
     try:
@@ -128,11 +118,9 @@ def encrypt_ui(interface_selection):
         return
 
     separator()
-
     rotated_semantic_encryption_list = encrypt_function(key_list, file_bytes_list)
 
     if int(interface_selection) == 1:
-
         encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
 
         with open(encrypted_file_path, 'w', encoding='utf-8') as f:
@@ -142,13 +130,11 @@ def encrypt_ui(interface_selection):
             f.close()
 
         print(pyfiglet.figlet_format('MESSAGE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
-
         separator()
 
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
     elif int(interface_selection) == 2:
-
         encrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_filename_list[0]) + '.bxc'
 
         with open(encrypted_file_path, 'w', encoding='utf-8') as f:
@@ -158,7 +144,6 @@ def encrypt_ui(interface_selection):
             f.close()
 
         print(pyfiglet.figlet_format('FILE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
-
         separator()
 
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
@@ -200,24 +185,20 @@ def decrypt_ui(interface_selection):
     key_list = []
 
     print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
-
     separator()
 
     user_file = tk_gui_file_selection_window()
     user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
 
     print('FILE SELECTED: ', user_file_original_filename)
-
     separator()
 
     print('SYMMETRICAL KEY OPTIONS: ')
     print()
     print('1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
-
     separator()
 
     key = input('ENTER OPTION #: ')
-
     separator()
 
     try:
@@ -242,17 +223,13 @@ def decrypt_ui(interface_selection):
     decrypted_file_bytes_list = decrypt_function(key_list, user_file)
 
     try:
-
         if int(interface_selection) == 1:
-
             decrypted_message_list = []
 
             print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
-
             separator()
 
             print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
-
             separator()
 
             print('DECRYPTED MESSAGE: ')
@@ -264,7 +241,6 @@ def decrypt_ui(interface_selection):
             print(''.join(decrypted_message_list))
 
         elif int(interface_selection) == 2:
-
             decrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_original_filename)
 
             try:
@@ -277,7 +253,6 @@ def decrypt_ui(interface_selection):
                 return
 
             print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
-
             separator()
 
             print('DECRYPTED FILE LOCATION: ' + os.path.abspath(decrypted_file_path))
