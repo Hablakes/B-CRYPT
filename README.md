@@ -1,5 +1,6 @@
 # BX_CRYPT
-Python // Custom Python Encryption Algorithm (Semantic & Symmetrical)
+
+Python // Encryption Algorithm (Semantic & Symmetrical)
 
 -------------------------------------------------------------------------------------------------
 Simple Tool To Encrypt and Decrypt Files or Messages with Unicode Characters
