@@ -9,6 +9,7 @@ import tkinter.filedialog
 
 
 test_list = []
+test_list_inverse = []
 
 
 def get_bytes_from_files(filename):
@@ -63,7 +64,9 @@ test_file = tk_gui_file_selection_window()
 for bytes_found in get_bytes_from_files(test_file):
     bytes_found = int(bytes_found)
     bytes_remainder = int(256 - bytes_found)
-    test_list.append([bytes_found, bytes_remainder])
+    test_list.append(bytes_found)
+    test_list_inverse.append(bytes_remainder)
 
 
 print(test_list)
+print(test_list_inverse)
