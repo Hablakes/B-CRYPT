@@ -4,8 +4,7 @@ import string
 import time
 
 import pyfiglet
-import tkinter
-import tkinter.filedialog
+from tkinter import filedialog, Tk
 
 
 def main():
@@ -15,13 +14,11 @@ def main():
 
 def interface():
     separator_3()
-
     print(pyfiglet.figlet_format('BX-CRYPT', font='cybermedium'))
     separator_1()
     print('\n', '\n', 'ENCRYPTION OPTIONS: ', '\n', '\n', '1) ENCRYPT A MESSAGE         2) DECRYPT A MESSAGE', '\n',
           '\n', '3) ENCRYPT A FILE            4) DECRYPT A FILE', '\n', '\n', '5) EXIT')
     separator_3()
-
     user_input = input('ENTER OPTION #: ')
     separator_3()
 
@@ -36,7 +33,6 @@ def interface():
             decrypt_ui(interface_selection=2)
         elif int(user_input) == 5:
             exit()
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
@@ -51,7 +47,6 @@ def encrypt_ui(interface_selection):
         if int(interface_selection) == 1:
             print(pyfiglet.figlet_format('ENTER MESSAGE TO ENCRYPT: ', font='cybermedium'))
             separator_3()
-
             message = input('ENTER MESSAGE: ')
 
             for message_bytes in bytes(message.encode('utf-8')):
@@ -60,26 +55,21 @@ def encrypt_ui(interface_selection):
         elif int(interface_selection) == 2:
             print(pyfiglet.figlet_format('INPUT FILE TO ENCRYPT: ', font='cybermedium'))
             separator_3()
-
             user_file = tk_gui_file_selection_window()
             user_file_filename = user_file.rsplit('/', 1)[-1]
             user_file_filename_list.append(user_file_filename)
-
             print('FILE SELECTED: ', user_file_filename)
 
             for file_bytes in get_bytes_from_files(user_file):
                 file_bytes_list.append(file_bytes)
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
 
     file_bytes_length = int(len(file_bytes_list))
     separator_3()
-
     print('SYMMETRICAL KEY OPTIONS: ', '\n', '\n', '1) USE CUSTOM KEY            2) CREATE ONE TIME PAD')
     separator_3()
-
     key = input('ENTER OPTION #: ')
     separator_3()
 
@@ -95,9 +85,7 @@ def encrypt_ui(interface_selection):
             with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
                 for key_characters in key_list:
                     f.write(key_characters)
-
             print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
@@ -116,7 +104,6 @@ def encrypt_ui(interface_selection):
 
         print(pyfiglet.figlet_format('MESSAGE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
         separator_3()
-
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
     elif int(interface_selection) == 2:
@@ -130,7 +117,6 @@ def encrypt_ui(interface_selection):
 
         print(pyfiglet.figlet_format('FILE ENCRYPTED SUCCESSFULLY', font='cybermedium'))
         separator_3()
-
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
 
 
@@ -159,7 +145,6 @@ def encrypt_function(key_list, file_byte_numbers_list):
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
     obscurer_bits = int(str(time_bit) + str(multiplier_bit) + str(time_bit_obscurer_random_number))
-
     semantic_encryption_list.append(obscurer_bits)
     rotated_semantic_encryption_list = rotate_list_as_rotor(semantic_encryption_list, average_encrypted_number_length)
 
@@ -171,16 +156,12 @@ def decrypt_ui(interface_selection):
 
     print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
     separator_3()
-
     user_file = tk_gui_file_selection_window()
     user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-
     print('FILE SELECTED: ', user_file_original_filename)
     separator_3()
-
     print('SYMMETRICAL KEY OPTIONS: ', '\n', '\n', '1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
     separator_3()
-
     key = input('ENTER OPTION #: ')
     separator_3()
 
@@ -189,14 +170,12 @@ def decrypt_ui(interface_selection):
             key = input('ENTER KEY: ')
             key_list.append(key)
             separator_3()
-
         elif int(key) == 2:
             key_file = tk_gui_file_selection_window()
 
             with open(key_file, 'r', encoding='utf-8') as f:
                 for key_characters in f:
                     key_list.append(key_characters)
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
@@ -209,15 +188,12 @@ def decrypt_ui(interface_selection):
 
             print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
             separator_3()
-
             print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
             separator_3()
-
             print('DECRYPTED MESSAGE: ', '\n', '\n')
 
             for decrypted_numbers in decrypted_file_bytes_list:
                 decrypted_message_list.append(chr(decrypted_numbers))
-
             print(''.join(decrypted_message_list))
 
         elif int(interface_selection) == 2:
@@ -226,16 +202,13 @@ def decrypt_ui(interface_selection):
             try:
                 with open(decrypted_file_path, 'wb') as f:
                     f.write(bytearray(decrypted_file_bytes_list))
-
             except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
                 print("KEY ERROR: ", e, '\n')
                 return
 
             print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
             separator_3()
-
             print('DECRYPTED FILE LOCATION: ' + os.path.abspath(decrypted_file_path))
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
@@ -254,7 +227,6 @@ def decrypt_function(key_list, user_file):
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
     average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
     inverse_average_encrypted_number_length = (average_encrypted_number_length - (average_encrypted_number_length * 2))
-
     rotated_encrypted_file = rotate_list_as_rotor(encrypted_numbers_list, inverse_average_encrypted_number_length)
 
     for file_byte_numbers in rotated_encrypted_file:
@@ -282,7 +254,6 @@ def get_bytes_from_files(filename):
         with open(filename, 'rb') as f:
             for byte in f.read():
                 yield byte
-
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
         return
@@ -318,10 +289,10 @@ def separator_3():
 
 
 def tk_gui_file_selection_window():
-    root = tkinter.Tk()
+    root = Tk()
     root.withdraw()
     root.update()
-    selected_file = tkinter.filedialog.askopenfilename()
+    selected_file = filedialog.askopenfilename()
     root.destroy()
     return selected_file
 
