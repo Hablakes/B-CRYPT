@@ -1,11 +1,7 @@
-import os
 import random
 import string
-import time
 
-import pyfiglet
-import tkinter
-import tkinter.filedialog
+from tkinter import filedialog, Tk
 
 
 test_list = []
@@ -51,10 +47,10 @@ def separator():
 
 
 def tk_gui_file_selection_window():
-    root = tkinter.Tk()
+    root = Tk()
     root.withdraw()
     root.update()
-    selected_file = tkinter.filedialog.askopenfilename()
+    selected_file = filedialog.askopenfilename()
     root.destroy()
     return selected_file
 
@@ -67,6 +63,10 @@ for bytes_found in get_bytes_from_files(test_file):
     test_list.append(bytes_found)
     test_list_inverse.append(bytes_remainder)
 
+for numbers in test_list:
+    print(numbers)
 
-print(test_list)
-print(test_list_inverse)
+separator()
+
+for numbers in test_list_inverse:
+    print(numbers)
