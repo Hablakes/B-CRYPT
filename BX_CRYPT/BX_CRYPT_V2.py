@@ -132,11 +132,12 @@ def encrypt_function(key_list, file_byte_numbers_list):
 
 def decrypt_ui(interface_selection):
     key_list = []
+    key_filename_list = []
     print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
     separator_3()
     user_file = tk_gui_file_selection_window()
-    user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
-    print('FILE SELECTED: ', user_file_original_filename)
+    user_file_original_filename = user_file.rsplit('/', 1)[-1]
+    print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
     separator_3()
     print('SYMMETRICAL KEY OPTIONS: ', '\n', '\n', '1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
     separator_3()
@@ -149,6 +150,8 @@ def decrypt_ui(interface_selection):
             separator_3()
         elif int(key) == 2:
             key_file = tk_gui_file_selection_window()
+            key_filename = key_file.rsplit('/', 1)[-1]
+            key_filename_list.append(key_filename)
             with open(key_file, 'r', encoding='utf-8') as f:
                 for key_characters in f:
                     key_list.append(key_characters)
@@ -159,7 +162,7 @@ def decrypt_ui(interface_selection):
     try:
         if int(interface_selection) == 1:
             decrypted_message_list = []
-            print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
+            print('KEY SELECTED: ', key_filename_list[0])
             separator_3()
             print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
             separator_3()
