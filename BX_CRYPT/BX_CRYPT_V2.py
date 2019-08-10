@@ -248,6 +248,11 @@ def separator_1():
     print('-' * 100)
 
 
+def separator_2():
+    for items in '\n', '-' * 100:
+        print(items)
+
+
 def separator_3():
     for item in '\n', '-' * 100, '\n':
         print(item)
