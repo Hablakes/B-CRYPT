@@ -21,6 +21,15 @@ def get_bytes_from_files(filename):
         return
 
 
+def inverse_bytes():
+    test_file = tk_gui_file_selection_window()
+    for bytes_found in get_bytes_from_files(test_file):
+        bytes_found = int(bytes_found)
+        bytes_remainder = int(256 - bytes_found)
+        test_list.append(bytes_found)
+        test_list_inverse.append(bytes_remainder)
+
+
 def random_number_for_multiplier_bit():
     multiplier_digit = random.randint(1, 9)
     return int((multiplier_digit % 9) + 1)
@@ -55,18 +64,4 @@ def tk_gui_file_selection_window():
     return selected_file
 
 
-test_file = tk_gui_file_selection_window()
-
-for bytes_found in get_bytes_from_files(test_file):
-    bytes_found = int(bytes_found)
-    bytes_remainder = int(256 - bytes_found)
-    test_list.append(bytes_found)
-    test_list_inverse.append(bytes_remainder)
-
-for numbers in test_list:
-    print(numbers)
-
-separator()
-
-for numbers in test_list_inverse:
-    print(numbers)
+print(random_string_with_one_time_pad_characters(100))
