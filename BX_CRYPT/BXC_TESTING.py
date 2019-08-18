@@ -1,6 +1,8 @@
 import random
 import string
 
+import textwrap
+
 from tkinter import filedialog, Tk
 
 
@@ -64,4 +66,6 @@ def tk_gui_file_selection_window():
     return selected_file
 
 
-print(random_string_with_one_time_pad_characters(100))
+sequence = random_string_with_one_time_pad_characters(1000)
+
+print(textwrap.fill(sequence, 100))
