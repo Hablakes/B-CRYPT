@@ -1,7 +1,8 @@
 import random
 import string
-
 import textwrap
+import time
+import timeit
 
 from tkinter import filedialog, Tk
 
@@ -66,6 +67,10 @@ def tk_gui_file_selection_window():
     return selected_file
 
 
-sequence = random_string_with_one_time_pad_characters(1000)
-
+separator()
+sequence = random_string_with_one_time_pad_characters(10000000)
+start = time.time()
 print(textwrap.fill(sequence, 100))
+separator()
+end = time.time()
+print(end - start)
