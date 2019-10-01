@@ -17,7 +17,7 @@ def interface():
     print(pyfiglet.figlet_format('BX-CRYPT', font='cybermedium'))
     separator_1()
     print('\n', '\n', 'ENCRYPTION OPTIONS: ', '\n', '\n', '1) ENCRYPT A MESSAGE         2) DECRYPT A MESSAGE', '\n',
-          '\n', '3) ENCRYPT A FILE            4) DECRYPT A FILE', '\n', '\n', '5) EXIT')
+          '\n', '3) ENCRYPT A FILE            4) DECRYPT A FILE', '\n', '\n', '0) EXIT')
     separator_3()
     user_input = input('ENTER OPTION #: ')
     separator_3()
@@ -30,7 +30,7 @@ def interface():
             encrypt_ui(interface_selection=2)
         elif int(user_input) == 4:
             decrypt_ui(interface_selection=2)
-        elif int(user_input) == 5:
+        elif int(user_input) == 0:
             exit()
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
         print(e, '\n', ('-' * 100), '\n', 'INPUT ERROR, PLEASE RETRY SELECTION USING NUMBER KEYS: ')
@@ -136,8 +136,9 @@ def decrypt_ui(interface_selection):
     print(pyfiglet.figlet_format('ENTER FILE TO DECRYPT: ', font='cybermedium'))
     separator_3()
     user_file = tk_gui_file_selection_window()
-    user_file_original_filename = user_file.rsplit('/', 1)[-1]
-    print('ENCRYPTED FILE SELECTED: ', user_file_original_filename)
+    user_file_filename = user_file.rsplit('/', 1)[-1]
+    user_file_original_filename = user_file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
+    print('ENCRYPTED FILE SELECTED: ', user_file_filename)
     separator_3()
     print('SYMMETRICAL KEY OPTIONS: ', '\n', '\n', '1) USE CUSTOM KEY            2) IMPORT ONE TIME PAD')
     separator_3()
