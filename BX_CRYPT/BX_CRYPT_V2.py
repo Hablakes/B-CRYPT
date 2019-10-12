@@ -73,7 +73,7 @@ def encrypt_ui(interface_selection):
         elif int(key) == 2:
             one_time_pad_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxk')
             key_list.append(random_string_with_one_time_pad_characters(file_bytes_length))
-            with open(one_time_pad_file_path, 'w', encoding='utf-8') as f:
+            with open(one_time_pad_file_path, 'w') as f:
                 for key_characters in key_list:
                     f.write(key_characters)
             print('KEY FILE LOCATION: ', os.path.abspath(one_time_pad_file_path))
@@ -84,7 +84,7 @@ def encrypt_ui(interface_selection):
     rotated_semantic_encryption_list = encrypt_function(key_list, file_bytes_list)
     if int(interface_selection) == 1:
         encrypted_file_path = os.path.expanduser(r'~/{0}').format('ENCRYPTED_MESSAGE.bxc')
-        with open(encrypted_file_path, 'w', encoding='utf-8') as f:
+        with open(encrypted_file_path, 'w') as f:
             for rotated_encrypted_numbers in rotated_semantic_encryption_list:
                 f.write(str(int(rotated_encrypted_numbers)))
                 f.write('\n')
@@ -94,7 +94,7 @@ def encrypt_ui(interface_selection):
         print('ENCRYPTED FILE LOCATION: ' + os.path.abspath(encrypted_file_path))
     elif int(interface_selection) == 2:
         encrypted_file_path = os.path.expanduser(r'~/{0}').format(user_file_filename_list[0]) + '.bxc'
-        with open(encrypted_file_path, 'w', encoding='utf-8') as f:
+        with open(encrypted_file_path, 'w') as f:
             for encrypted_numbers in rotated_semantic_encryption_list:
                 f.write(str(int(encrypted_numbers)))
                 f.write('\n')
@@ -121,7 +121,7 @@ def encrypt_function(key_list, file_byte_numbers_list):
         pseudo_random_multiplied_numbers = int(multiplied_numbers + (time_bit * multiplier_bit))
         semantic_encryption_list.append(pseudo_random_multiplied_numbers)
     encrypted_number_lengths = [len(str(x)) for x in semantic_encryption_list]
-    average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
+    average_encrypted_number_length = int(sum(encrypted_number_lengths) / len(encrypted_number_lengths))
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
     obscurer_bits = int(str(time_bit) + str(multiplier_bit) + str(time_bit_obscurer_random_number))
@@ -153,7 +153,7 @@ def decrypt_ui(interface_selection):
             key_file = tk_gui_file_selection_window()
             key_filename = key_file.rsplit('/', 1)[-1]
             key_filename_list.append(key_filename)
-            with open(key_file, 'r', encoding='utf-8') as f:
+            with open(key_file, 'r') as f:
                 for key_characters in f:
                     key_list.append(key_characters)
     except (TypeError, ValueError, UnicodeDecodeError, ZeroDivisionError) as e:
@@ -165,7 +165,7 @@ def decrypt_ui(interface_selection):
             decrypted_message_list = []
             print('KEY SELECTED: ', key_filename_list[0])
             separator_3()
-            print(pyfiglet.figlet_format('FILE DECRYPTED SUCCESSFULLY', font='cybermedium'))
+            print(pyfiglet.figlet_format('MESSAGE DECRYPTED SUCCESSFULLY', font='cybermedium'))
             separator_3()
             print('DECRYPTED MESSAGE: ', '\n', '\n')
             for decrypted_numbers in decrypted_file_bytes_list:
@@ -192,11 +192,11 @@ def decrypt_function(key_list, user_file):
     rotated_encrypted_file_list = []
     semantic_encrypted_file_list = []
     decrypted_file_list = []
-    with open(user_file, encoding='utf-8') as f:
+    with open(user_file) as f:
         for encrypted_numbers in f:
             encrypted_numbers_list.append(int(encrypted_numbers.rstrip('\n')))
     encrypted_number_lengths = [len(str(x)) for x in encrypted_numbers_list]
-    average_encrypted_number_length = int(sum(encrypted_number_lengths) // len(encrypted_number_lengths))
+    average_encrypted_number_length = int(sum(encrypted_number_lengths) / len(encrypted_number_lengths))
     inverse_average_encrypted_number_length = (average_encrypted_number_length - (average_encrypted_number_length * 2))
     rotated_encrypted_file = rotate_list_as_rotor(encrypted_numbers_list, inverse_average_encrypted_number_length)
     for file_byte_numbers in rotated_encrypted_file:
@@ -210,7 +210,7 @@ def decrypt_function(key_list, user_file):
     for enumeration_number, character in enumerate(semantic_encrypted_file_list):
         file_byte_character_integer = int(character)
         key_enumeration_ordinal = int(ord(''.join(key_list)[enumeration_number % len(''.join(key_list))]))
-        divided_file_byte_integer = int((file_byte_character_integer // key_enumeration_ordinal) // multiplier_bit)
+        divided_file_byte_integer = int((file_byte_character_integer / key_enumeration_ordinal) / multiplier_bit)
         decrypted_file_list.append(divided_file_byte_integer)
     return decrypted_file_list
 
