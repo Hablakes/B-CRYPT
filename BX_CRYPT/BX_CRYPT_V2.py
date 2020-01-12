@@ -221,7 +221,7 @@ def encrypt_function(key_list, file_byte_numbers_list):
     # get the appropriate length for the "time_bit_obscurer"
     time_bit_obscurer_length = int(average_encrypted_number_length - time_bit_length)
 
-    # # pick a random number between 2-9 for as many digits as needed based on the results of
+    # pick a random number between 2-9 for as many digits as needed based on the results of
     # "time_bit_obscurer_length"
     time_bit_obscurer_random_number = random_number_with_obscurer_digits(time_bit_obscurer_length)
 
