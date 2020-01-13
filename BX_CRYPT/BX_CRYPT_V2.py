@@ -411,9 +411,7 @@ def get_bytes_from_files(filename):
 
 # pick a random number between 2-9
 def random_number_for_multiplier_bit():
-    multiplier_digit = random.randint(1, 9)
-
-    return int((multiplier_digit % 9) + 1)
+    return random.randint(2, 9)
 
 
 # create random number, based on the number of numbers requested
